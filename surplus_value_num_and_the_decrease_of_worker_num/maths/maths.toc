@@ -1,0 +1,5 @@
+\contentsline {section}{\numberline {1}绝对替代模型及其边界条件}{3}{}%
+\contentsline {section}{\numberline {2}绝对替代模型的意义和有限性}{6}{}%
+\contentsline {section}{\numberline {3}相对替代模型及其边界条件}{7}{}%
+\contentsline {section}{\numberline {4}相对替代模型的程序化和可视化}{10}{}%
+\contentsline {section}{\numberline {5}结论}{12}{}%

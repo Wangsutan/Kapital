@@ -1,0 +1,190 @@
+{
+  "main": {
+    "id": "c09dfabe161024fb",
+    "type": "split",
+    "children": [
+      {
+        "id": "d7b7427fcad87f5e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "75a8fe397aec3b11",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ae6a02a24751f50c",
+    "type": "split",
+    "children": [
+      {
+        "id": "3306e3166a7a9bb8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c4ac568d08c6225c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "c6a9c48c0176056b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "e4b61b351fef27c2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "374b7933dad0f0ec",
+    "type": "split",
+    "children": [
+      {
+        "id": "1957ae28d0e3909c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "386967018237cba2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "afdffeb7414bc4be",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "f90f6e676c8125c3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "cd4125fb06284c61",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "75a8fe397aec3b11",
+  "lastOpenFiles": [
+    "fill_Umlaufszeit/原著笔记/第十五章详细笔记.md",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmpwtt71uis",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmp8n81flak",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmpzrk44jjj",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmpfw1mwtj8",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmp2zaw9br2",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmpj6h5r9rn",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmp3z6o0pl4",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmpi_k7ri1x",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmp0lnjsah9",
+    "fill_Umlaufszeit/money_capital_in_turnover/tmpdw2nj0ax",
+    "fill_Umlaufszeit/原著笔记/20220406_《资本论》第二卷第二篇第十五章笔记.md",
+    "fill_Umlaufszeit/money_capital_in_turnover/money_capital_in_turnover_doc.md",
+    "fill_Umlaufszeit/money_capital_in_turnover/money_capital_in_turnover_资本关键节点.md",
+    "fill_Umlaufszeit/others/预付资本填充流通时间的若干特殊实例及其程序化.md",
+    "fill_Umlaufszeit/others/Figure_end.png",
+    "fill_Umlaufszeit/宣讲/分享材料/分享草稿.md",
+    "fill_Umlaufszeit/宣讲/分享材料/大纲.md",
+    "fill_Umlaufszeit/预付资本填充流通时间的若干特殊实例及其程序化.md",
+    "fill_Umlaufszeit/others/plot_history/P20407-072205.jpg",
+    "fill_Umlaufszeit/readme_about_programs.md",
+    "Untitled.md",
+    "fill_Umlaufszeit/others/早前过程（宣传）/fill_Umlaufszeit_judgement.md",
+    "fill_Umlaufszeit/others/早前过程（宣传）/no_stagnant_1.png",
+    "fill_Umlaufszeit/others/早前过程（宣传）/readme.md",
+    "fill_Umlaufszeit/others/早前过程（宣传）/Figure_3.png",
+    "fill_Umlaufszeit/others/早前过程（宣传）/Figure_2.png",
+    "fill_Umlaufszeit/others/早前过程（宣传）/Figure_1_new_instant_9_weeks_6_3_reproduction.png",
+    "fill_Umlaufszeit/others/早前过程（宣传）/Figure_1_new_instant_9_weeks_6_3.png",
+    "fill_Umlaufszeit/others/早前过程（宣传）/Figure_1.png",
+    "fill_Umlaufszeit/others/回答/资本论在今天还有什么现实意义？_答.md",
+    "fill_Umlaufszeit/others/回答/读了《资本论》后你有什么感受？_答.md",
+    "fill_Umlaufszeit/others/plot_history/P20407-072205.png",
+    "fill_Umlaufszeit/others/marx_instants/readme.md",
+    "fill_Umlaufszeit/others/marx_instants/orig_0_money_capital.png",
+    "fill_Umlaufszeit/freigesetzte_Kapital/freigesetzte_Kapital_计算游离资本.md",
+    "fill_Umlaufszeit/fill_Umlaufszeit/fill_Umlaufszeit_money_capital_instant.md",
+    "fill_Umlaufszeit/fill_Umlaufszeit/fill_Umlaufszeit_doc.md",
+    "fill_Umlaufszeit/aligh_right/aligh_right_计算一年中周转情况.md",
+    "fill_Umlaufszeit/money_capital_in_turnover_资本关键节点.md",
+    "fill_Umlaufszeit/money_capital_in_turnover_doc.md",
+    "fill_Umlaufszeit/fill_Umlaufszeit_doc.md",
+    "fill_Umlaufszeit/fill_Umlaufszeit_money_capital_instant.md",
+    "fill_Umlaufszeit/宣讲/回应.md",
+    "资本的总过程/价值转型/profit_rate/book.md",
+    "资本的生产过程/work_day/Untitled.canvas"
+  ]
+}

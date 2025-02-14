@@ -1,0 +1,16 @@
+m_total: 3.4
+investment_total: 7.5
+profit_rate: 0.4533333333333333
+   c    v  svr    m  value  product_price  value_product_price_diff
+0  1  1.0  0.6  0.6    2.6       2.906667                 -0.306667
+1  2  1.0  1.0  1.0    4.0       4.360000                 -0.360000
+2  1  1.5  1.2  1.8    4.3       3.633333                  0.666667
+
+value_product_price_diff > 0.0
+   c    v  svr    m  value  product_price  value_product_price_diff
+2  1  1.5  1.2  1.8    4.3       3.633333                  0.666667
+profit_total: 3.4
+m_total == profit_total
+
+value_total: 10.899999999999999
+product_price_total: 10.9

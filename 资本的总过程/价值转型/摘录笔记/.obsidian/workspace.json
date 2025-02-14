@@ -1,0 +1,158 @@
+{
+  "main": {
+    "id": "6909ff1e22758f00",
+    "type": "split",
+    "children": [
+      {
+        "id": "6c6964e996126ae7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6789c813a7585b97",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8ad44e77c945df25",
+    "type": "split",
+    "children": [
+      {
+        "id": "5904e1232e463a9f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a81a934013f64d6a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "1756085c862d59a5",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d53d2f1a31c61ed2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "12cc015a738b2149",
+    "type": "split",
+    "children": [
+      {
+        "id": "8a2fe9d7896db44a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a770654a01173742",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "0826169357446988",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "184d22d107d1046c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2c1441290cdc52b8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "6789c813a7585b97",
+  "lastOpenFiles": [
+    "第十五章.md",
+    "第四章.md",
+    "第三章.md",
+    "第十章.md",
+    "第十四章.md",
+    "第十二章.md",
+    "第十三章.md",
+    "第十一章.md",
+    "第六章.md",
+    "第八章.md",
+    "第五章.md",
+    "第二章.md",
+    "第九章.md",
+    "第一章.md"
+  ]
+}

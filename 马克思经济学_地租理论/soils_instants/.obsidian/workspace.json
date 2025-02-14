@@ -1,0 +1,169 @@
+{
+  "main": {
+    "id": "300c4335a61db3c8",
+    "type": "split",
+    "children": [
+      {
+        "id": "172966f68f391fa7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7c924b8713cb93cc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "economic_relations.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a4bc290f49de62ea",
+    "type": "split",
+    "children": [
+      {
+        "id": "758f32be7ad95530",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1c165a3894159e20",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "49a3d76227856033",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5f7e8acc829551db",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7a4dc21e533219c2",
+    "type": "split",
+    "children": [
+      {
+        "id": "400791b4a8474351",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "796ac1d4810db965",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "economic_relations.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "d42fe527849b3c0d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "economic_relations.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "39e9aeb817c234d3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "4666415e0719fe53",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "economic_relations.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "7c924b8713cb93cc",
+  "lastOpenFiles": [
+    "calc_doc.md",
+    "economic_relations.md",
+    "Untitled.md",
+    "Untitled.canvas",
+    "tmpqv3z05l7",
+    "tmpquzpxhem",
+    "tmpn3wwdjg3",
+    "tmpjd61vouy",
+    "tmpdp0wuft5",
+    "tmptvh2n_ck",
+    "tmprommcy41",
+    "tmpdtp8rlfo",
+    "tmphl2u0gvl",
+    "tmpyqy_fbrw",
+    "截图_选择区域_20230824213046.jpg",
+    "截图_选择区域_20230824212447.jpg",
+    "截图_选择区域_20230824211647.jpg"
+  ]
+}

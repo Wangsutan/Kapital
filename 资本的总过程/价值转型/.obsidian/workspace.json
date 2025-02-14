@@ -1,0 +1,165 @@
+{
+  "main": {
+    "id": "9553036e46e460e8",
+    "type": "split",
+    "children": [
+      {
+        "id": "90f1d3a3f22fb33b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5dd06dce3aee1ced",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2a7a2e42eecbd8ba",
+    "type": "split",
+    "children": [
+      {
+        "id": "b187c621928dd02e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "027d6e25878a2048",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d04b134b6a2d2d39",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "4a35cccce33ae680",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "16317a0c0a8f2817",
+    "type": "split",
+    "children": [
+      {
+        "id": "7e2bb23cf02ac547",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3962159ad928a77d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c73a1d0c365ea8d2",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "292f45dc02c65c15",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "9b4375f1762fa7be",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "5dd06dce3aee1ced",
+  "lastOpenFiles": [
+    "摘录笔记/第一章.md",
+    "Untitled 1.md",
+    "Untitled.md",
+    "tmpo4nik0fr",
+    "tmp1qus61jn",
+    "lu21813043xox9.tmp",
+    "lu21813043xox7.tmp",
+    "datas1.xlsx",
+    "lu21813043xox6.tmp",
+    "tmp8nevgcm2",
+    "tmpmc1ft3yk",
+    "tmpcnw9fhxo",
+    "tmpm3u841ed",
+    "第九章.md",
+    "第五章.md",
+    "第八章.md",
+    "第六章.md",
+    "第四章.md",
+    "第三章.md",
+    "第二章.md",
+    "第一章.md"
+  ]
+}

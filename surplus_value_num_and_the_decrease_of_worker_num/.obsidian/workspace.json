@@ -1,0 +1,156 @@
+{
+  "main": {
+    "id": "10cba69ac500d2c8",
+    "type": "split",
+    "children": [
+      {
+        "id": "df5c277ce8411497",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5714032703f12f7e",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "maths/maths.pdf"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "93dc838d4e661442",
+    "type": "split",
+    "children": [
+      {
+        "id": "308e20326e7e0ca3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "118b739ebcfe86d6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d5c1500172a6e590",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "09aed84a25379fb1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "bd50454526367a82",
+    "type": "split",
+    "children": [
+      {
+        "id": "fcd47ba2eeeea41a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "397ab4134e3df34d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "maths/maths.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3907af3ab103569f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "maths/maths.pdf",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5df626a619615629",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "23cd31871d441a21",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "maths/maths.pdf"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "5714032703f12f7e",
+  "lastOpenFiles": [
+    "Figure_1.png",
+    "个人信息.md",
+    "maths/maths.pdf",
+    "maths/Figure_1.png",
+    "maths/maths.md"
+  ]
+}

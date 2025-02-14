@@ -1,0 +1,38 @@
+General Program of Differential Rent!
+
+product_demand: 26.00
+
+List of Types of Soils:
+soil_A soil_B soil_C soil_D 
+[3]	product_supply_possible: 8.00
+[2]	product_supply_possible: 14.00
+[1]	product_supply_possible: 22.00
+[0]	product_supply_possible: 26.00
+
+mininum soil: soil_A
+supply_demand_rate: 1.00
+product_supply_possible: 26.00
+
+supply_demand_rate and if_need_supply_demand_balance
+product_price: 60.00
+product_price_equilibrium: 60.00
+
+product_supply:26.00
+soil_list[ptr_min].area_used: 4.00
+
+product_value_total: 1560.00
+super_profit_total: 840.00
+
+soil_name, area_used, product_num_per_area, product_num_individual, investment, product_price, product_price_equilibrium, product_value_individual, super_profit_individual, 
+soil_A, 4, 1, 4, 200, 60.000004, 60.000004, 240.00002, 0, 
+soil_B, 4, 2, 8, 200, 60.000004, 60.000004, 480.00003, 240.00002, 
+soil_C, 2, 3, 6, 100, 60.000004, 60.000004, 360.00003, 240.00003, 
+soil_D, 2, 4, 8, 100, 60.000004, 60.000004, 480.00003, 360.00003, 
+
+rent_total: 840.00
+
+area_used_total: 12.00
+rent_per_area_avg: 70.00
+
+investment_total: 600.00
+rent_per_capital_avg: 140.00%
