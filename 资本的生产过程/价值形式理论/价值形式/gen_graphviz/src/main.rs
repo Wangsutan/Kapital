@@ -5,7 +5,7 @@ use toml::Value;
 use walkdir::WalkDir;
 
 fn create_dot(value: Value) -> String {
-    let mut dot = format!("digraph 价值形式理论 {{\n    rankdir=LR;\n    node [shape=record];\n");
+    let mut dot = format!("digraph 价值形式理论 {{\n    rankdir=LR;\n    node [shape=circle];\n");
     for (good_relative_form_of_value, table_good_equivalent_form_of_value) in
         value.as_table().unwrap().iter()
     {
@@ -42,12 +42,17 @@ fn create_dot(value: Value) -> String {
 
 fn main() -> io::Result<()> {
     let dir = "../../"; // 指定要遍历的目录
+    let output_dir = "../graphs_generated"; // 指定输出目录
+
+    // 创建输出目录（如果不存在）
+    fs::create_dir_all(output_dir)?;
 
     for entry in WalkDir::new(dir) {
         let entry = entry?;
         let path = entry.path();
         if path.extension().map_or(false, |e| e == "toml")
             && path.file_name().unwrap() != "Cargo.toml"
+            && !path.file_name().unwrap().to_str().unwrap().contains("test")
         {
             let file_name = path.file_stem().unwrap().to_str().unwrap();
             let content = fs::read_to_string(path)?;
@@ -56,11 +61,11 @@ fn main() -> io::Result<()> {
             let dot: String = create_dot(value);
 
             // 输出 DOT 描述到文件
-            let output_path = format!("{}/{}.dot", dir, file_name);
+            let output_path = format!("{}/{}.dot", output_dir, file_name);
             fs::write(&output_path, dot)?;
 
             // 调用外部命令将 dot 文件转换成 png 图像
-            let output_img_path = format!("{}/{}.png", dir, file_name);
+            let output_img_path = format!("{}/{}.png", output_dir, file_name);
             let status = Command::new("dot")
                 .arg("-Tpng")
                 .arg(&output_path)

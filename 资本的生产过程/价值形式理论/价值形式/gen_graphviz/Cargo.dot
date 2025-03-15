@@ -1,4 +1,0 @@
-digraph 商品交换关系 {
-    rankdir=LR;
-    node [shape=record];
-}

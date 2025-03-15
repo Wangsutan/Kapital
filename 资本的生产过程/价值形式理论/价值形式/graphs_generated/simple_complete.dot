@@ -1,0 +1,6 @@
+digraph 价值形式理论 {
+    rankdir=LR;
+    node [shape=circle];
+    "1件 上衣" -> "20码 麻布";
+    "20码 麻布" -> "1件 上衣";
+}

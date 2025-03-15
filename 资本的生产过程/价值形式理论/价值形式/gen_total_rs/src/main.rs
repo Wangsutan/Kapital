@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io::{self, Write};
-use toml::{self, Value};
+use std::path::Path;
+use toml::Value;
+use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Product {
@@ -11,6 +13,7 @@ struct Product {
     exchange_rate: Vec<String>,
 }
 
+/// 从TOML值中提取商品信息的函数
 fn extract_goods(value: &Value) -> Vec<[String; 2]> {
     let mut goods = Vec::new();
     for (key, table) in value.as_table().unwrap().iter() {
@@ -26,6 +29,7 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
                             let to = exchange_rate[1].as_str().unwrap().trim_matches('"');
                             // println!("{}, {}, {}, {}", key, from, product_name, to);
                             goods.push([product_name.to_string(), to.to_string()]);
+                            // 避免重复添加基础商品
                             if !goods.contains(&[key.to_string(), from.to_string()]) {
                                 goods.push([key.to_string(), from.to_string()]);
                             }
@@ -38,6 +42,7 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
     goods
 }
 
+/// 创建单个交换关系表的函数
 fn create_single_change_table(
     one: &[String; 2],
     another: &[String; 2],
@@ -62,21 +67,24 @@ fn create_single_change_table(
     single_change_table
 }
 
-fn main() -> io::Result<()> {
-    let content = fs::read_to_string("../total.toml")?;
+/// 处理单个文件生成完整交换关系表
+fn process_file(input_path: &Path, output_path: &str, file_name: &str) -> io::Result<()> {
+    // 读取输入文件
+    let content = fs::read_to_string(input_path)?;
     let value: Value = toml::from_str(&content)
         .map_err(|e| io::Error::new(io::ErrorKind::Other, e.to_string()))?;
 
     let goods = extract_goods(&value);
-    // println!("全部商品信息：\n{:?}\n", goods);
 
-    // 清空目标文件内容（如果文件存在）
-    fs::write("../total_true.toml", "")?;
-    // 使用 OpenOptions 打开文件并设置为追加模式
+    // 生成输出文件名
+    let output_path = Path::new(output_path).join(format!("{}_complete.toml", file_name));
+
+    // 初始化输出文件
+    fs::write(&output_path, "")?;
     let mut file = std::fs::OpenOptions::new()
         .append(true) // 设置追加模式
         .create(true) // 如果文件不存在则创建
-        .open("../total_true.toml")?;
+        .open(output_path)?;
 
     // 遍历 goods 数据，生成排列组合
     for one in &goods {
@@ -108,7 +116,41 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("TOML 文件已生成: total_true.toml");
+    Ok(())
+}
 
+fn main() -> io::Result<()> {
+    // 遍历指定目录下的所有toml文件
+    let dir = "../"; // 指定要遍历的目录
+    for entry in WalkDir::new(dir) {
+        let entry = entry?;
+        let path = entry.path();
+
+        if let Some(file_name_os) = path.file_stem() {
+            if let Some(file_name) = file_name_os.to_str() {
+                // 过滤条件：toml文件，排除Cargo.toml和complete文件
+                if path.extension().map_or(false, |e| e == "toml")
+                    && !file_name.contains("Cargo")
+                    && !file_name.contains("complete")
+                    && !file_name.contains("test")
+                {
+                    println!("正在处理文件: {}", path.display());
+
+                    // 生成输出路径
+                    let output_path = Path::new(dir).join("datas_completed");
+                    fs::create_dir_all(&output_path)?; // 确保输出目录存在
+
+                    // 调用 process_file 函数
+                    process_file(path, output_path.to_str().unwrap(), file_name)?;
+                }
+            } else {
+                eprintln!("文件名包含无效的 UTF-8 字符: {}", path.display());
+            }
+        } else {
+            eprintln!("路径没有文件名: {}", path.display());
+        }
+    }
+
+    println!("所有TOML文件处理完成");
     Ok(())
 }
