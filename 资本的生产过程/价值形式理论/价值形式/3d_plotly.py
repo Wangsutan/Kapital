@@ -51,7 +51,7 @@ def visualize_graph(dot_file_path: str) -> None:
         )
 
     # 生成商品名称列表（优化点）
-    product_names: List[str] = [name.split()[1] for name in node_positions.keys()]
+    product_names: List[str] = list(node_positions.keys())
 
     # 创建节点轨迹（使用提取的颜色逻辑）
     node_trace: go.Scatter3d = go.Scatter3d(

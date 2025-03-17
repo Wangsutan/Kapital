@@ -23,11 +23,11 @@ fn create_dot(value: Value) -> String {
                             let quantity_good_equivalent =
                                 exchange_rate[1].as_str().unwrap().trim_matches('"');
                             dot.push_str(&format!(
-                                "    \"{} {}\" -> \"{} {}\";\n",
-                                quantity_good_relative,
+                                "    \"{}\" -> \"{}\" [label=\"{}: {}\"];\n",
                                 good_relative_form_of_value,
+                                good_equivalent,
+                                quantity_good_relative,
                                 quantity_good_equivalent,
-                                good_equivalent
                             ));
                         }
                     }

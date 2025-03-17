@@ -1,5 +1,5 @@
 digraph 价值形式理论 {
     rankdir=LR;
     node [shape=circle];
-    "20码 麻布" -> "1件 上衣";
+    "麻布" -> "上衣" [label="20码: 1件"];
 }
