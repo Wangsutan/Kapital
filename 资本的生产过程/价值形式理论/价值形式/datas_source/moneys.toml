@@ -1,63 +1,63 @@
-[["麻布"]]
-"产品名称" = "金"
-"交换比例" = ["20码", "2盎司"]
+[["Linen"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["20 yards", "2 ounces"]
 
-[["麻布"]]
-"产品名称" = "银"
-"交换比例" = ["20码", "32盎司"]
+[["Linen"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["20 yards", "32 ounces"]
 
-[["上衣"]]
-"产品名称" = "金"
-"交换比例" = ["1件", "2盎司"]
+[["Shirt"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["1 piece", "2 ounces"]
 
-[["上衣"]]
-"产品名称" = "银"
-"交换比例" = ["1件", "32盎司"]
+[["Shirt"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["1 piece", "32 ounces"]
 
-[["茶叶"]]
-"产品名称" = "金"
-"交换比例" = ["10磅", "2盎司"]
+[["Tea"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["10 pounds", "2 ounces"]
 
-[["茶叶"]]
-"产品名称" = "银"
-"交换比例" = ["10磅", "32盎司"]
+[["Tea"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["10 pounds", "32 ounces"]
 
-[["咖啡"]]
-"产品名称" = "金"
-"交换比例" = ["40磅", "2盎司"]
+[["Coffee"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["40 pounds", "2 ounces"]
 
-[["咖啡"]]
-"产品名称" = "银"
-"交换比例" = ["40磅", "32盎司"]
+[["Coffee"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["40 pounds", "32 ounces"]
 
-[["小麦"]]
-"产品名称" = "金"
-"交换比例" = ["1夸特", "2盎司"]
+[["Wheat"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["1 quarter", "2 ounces"]
 
-[["小麦"]]
-"产品名称" = "银"
-"交换比例" = ["1夸特", "32盎司"]
+[["Wheat"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["1 quarter", "32 ounces"]
 
-[["铁"]]
-"产品名称" = "金"
-"交换比例" = ["1/2吨", "2盎司"]
+[["Iron"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["1/2 ton", "2 ounces"]
 
-[["铁"]]
-"产品名称" = "银"
-"交换比例" = ["1/2吨", "32盎司"]
+[["Iron"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["1/2 ton", "32 ounces"]
 
-[["商品A"]]
-"产品名称" = "金"
-"交换比例" = ["x量", "2盎司"]
+[["Product A"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["x quantity", "2 ounces"]
 
-[["商品A"]]
-"产品名称" = "银"
-"交换比例" = ["x量", "32盎司"]
+[["Product A"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["x quantity", "32 ounces"]
 
-[["银"]]
-"产品名称" = "金"
-"交换比例" = ["32盎司", "2盎司"]
+[["Silver"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["32 ounces", "2 ounces"]
 
-[["金"]]
-"产品名称" = "银"
-"交换比例" = ["2盎司", "32盎司"]
+[["Gold"]]
+"Product Name" = "Silver"
+"Exchange Ratio" = ["2 ounces", "32 ounces"]

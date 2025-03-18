@@ -1,23 +1,23 @@
-[["麻布"]]
-"产品名称" = "上衣"
-"交换比例" = ["20码", "1件"]
+[["Linen"]]
+"Product Name" = "Shirt"
+"Exchange Ratio" = ["20 yards", "1 piece"]
 
-[["麻布"]]
-"产品名称" = "茶叶"
-"交换比例" = ["20码", "10磅"]
+[["Linen"]]
+"Product Name" = "Tea"
+"Exchange Ratio" = ["20 yards", "10 pounds"]
 
-[["麻布"]]
-"产品名称" = "咖啡"
-"交换比例" = ["20码", "40磅"]
+[["Linen"]]
+"Product Name" = "Coffee"
+"Exchange Ratio" = ["20 yards", "40 pounds"]
 
-[["麻布"]]
-"产品名称" = "小麦"
-"交换比例" = ["20码", "1夸特"]
+[["Linen"]]
+"Product Name" = "Wheat"
+"Exchange Ratio" = ["20 yards", "1 quarter"]
 
-[["麻布"]]
-"产品名称" = "金"
-"交换比例" = ["20码", "2盎司"]
+[["Linen"]]
+"Product Name" = "Gold"
+"Exchange Ratio" = ["20 yards", "2 ounces"]
 
-[["麻布"]]
-"产品名称" = "铁"
-"交换比例" = ["20码", "1/2吨"]
+[["Linen"]]
+"Product Name" = "Iron"
+"Exchange Ratio" = ["20 yards", "1/2 ton"]

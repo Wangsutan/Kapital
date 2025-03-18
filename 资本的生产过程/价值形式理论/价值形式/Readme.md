@@ -26,13 +26,13 @@
 - **gen_graphviz**：Rust 子项目，负责读取 `.toml` 文件并生成 `.dot` 文件和 `.png` 图像。
 - **check_data**：Rust 测试程序，用于测试等价物是否存在重复等等。`data_test` 文件夹里存在测试数据。
 - **pic_demo**：存放生成的 `.png` 图像样例。
-- **datas_source 里的 .toml 文件**：存放原始数据，包含商品名称和交换比例等信息。
+- **datas_source 里的 .toml 文件**：存放原始数据，包含商品名称和Exchange Ratio等信息。
 - **datas_completed 里的 .toml 文件**：存放生成的完整版数据。
 - **graphs_generated 里的文件**：关于图（graph）的文件。
 
 ## 使用方法
 
-1. **配置 `.toml` 文件**：在该项目的 `datas_source` 文件夹下配置 `.toml` 文件，定义商品名称和交换比例。`*_complete.toml` 这些文件无需手动配置，应该自动生成。
+1. **配置 `.toml` 文件**：在该项目的 `datas_source` 文件夹下配置 `.toml` 文件，定义商品名称和Exchange Ratio。`*_complete.toml` 这些文件无需手动配置，应该自动生成。
 2. **运行 gen_total_rs**：在该子项目根目录下运行 `cargo run`，以运行该项目，生成 `*_complete.toml` 文件到 `gra` 文件夹。
 3. **运行 gen_graphviz**：在该子项目根目录下运行 `cargo run`，以运行该项目，生成 `.dot` 文件和 `.png` 图像到 `graphs_generated` 文件夹。
 4. **运行 3d_plotly.py**：生成网页版的 3D 图形。

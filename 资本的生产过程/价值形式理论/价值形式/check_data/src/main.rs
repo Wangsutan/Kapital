@@ -7,9 +7,9 @@ use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Product {
-    #[serde(rename = "产品名称")]
+    #[serde(rename = "Product Name")]
     product_name: String,
-    #[serde(rename = "交换比例")]
+    #[serde(rename = "Exchange Ratio")]
     exchange_rate: Vec<String>,
 }
 
@@ -24,7 +24,7 @@ fn check_same_goods(value: &Value) -> Vec<String> {
         if let Some(array) = table.as_array() {
             for (index, item) in array.iter().enumerate() {
                 if let Some(item_table) = item.as_table() {
-                    if let Some(product_name) = item_table.get("产品名称").and_then(|v| v.as_str())
+                    if let Some(product_name) = item_table.get("Product Name").and_then(|v| v.as_str())
                     {
                         // 判断每种key下的product_name是否有重复
                         let key_entry =

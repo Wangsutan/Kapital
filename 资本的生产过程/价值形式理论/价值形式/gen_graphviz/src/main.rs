@@ -13,10 +13,10 @@ fn create_dot(value: Value) -> String {
             for equivalent in equivalent_array_table {
                 if let Some(equivalent_table) = equivalent.as_table() {
                     if let Some(good_equivalent) =
-                        equivalent_table.get("产品名称").and_then(|v| v.as_str())
+                        equivalent_table.get("Product Name").and_then(|v| v.as_str())
                     {
                         if let Some(exchange_rate) =
-                            equivalent_table.get("交换比例").and_then(|v| v.as_array())
+                            equivalent_table.get("Exchange Ratio").and_then(|v| v.as_array())
                         {
                             let quantity_good_relative =
                                 exchange_rate[0].as_str().unwrap().trim_matches('"');

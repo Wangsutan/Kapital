@@ -1,14 +1,14 @@
-[["上衣"]]
-"交换比例" = [
-    "1件",
-    "20码",
+[[Shirt]]
+"Exchange Ratio" = [
+    "1 piece",
+    "20 yards",
 ]
-"产品名称" = "麻布"
+"Product Name" = "Linen"
 
-[["麻布"]]
-"交换比例" = [
-    "20码",
-    "1件",
+[[Linen]]
+"Exchange Ratio" = [
+    "20 yards",
+    "1 piece",
 ]
-"产品名称" = "上衣"
+"Product Name" = "Shirt"
 

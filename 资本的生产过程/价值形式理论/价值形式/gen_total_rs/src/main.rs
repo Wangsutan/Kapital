@@ -7,9 +7,9 @@ use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Product {
-    #[serde(rename = "产品名称")] // 自定义序列化和反序列化时的字段名称
+    #[serde(rename = "Product Name")] // 自定义序列化和反序列化时的字段名称
     product_name: String,
-    #[serde(rename = "交换比例")] // 自定义序列化和反序列化时的字段名称
+    #[serde(rename = "Exchange Ratio")] // 自定义序列化和反序列化时的字段名称
     exchange_rate: Vec<String>,
 }
 
@@ -20,10 +20,10 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
         if let Some(array) = table.as_array() {
             for item in array {
                 if let Some(item_table) = item.as_table() {
-                    if let Some(product_name) = item_table.get("产品名称").and_then(|v| v.as_str())
+                    if let Some(product_name) = item_table.get("Product Name").and_then(|v| v.as_str())
                     {
                         if let Some(exchange_rate) =
-                            item_table.get("交换比例").and_then(|v| v.as_array())
+                            item_table.get("Exchange Ratio").and_then(|v| v.as_array())
                         {
                             let from = exchange_rate[0].as_str().unwrap().trim_matches('"');
                             let to = exchange_rate[1].as_str().unwrap().trim_matches('"');
@@ -51,13 +51,13 @@ fn create_single_change_table(
 
     // 向等价物表中添加等价物名称
     let good_equivalent_form_of_value = toml::Value::String(another[0].to_string());
-    single_change_table.insert("产品名称".to_string(), good_equivalent_form_of_value);
+    single_change_table.insert("Product Name".to_string(), good_equivalent_form_of_value);
 
-    // 向等价物表中添加交换比例
+    // 向等价物表中添加Exchange Ratio
     let quantity_good_equivalent_form_of_value = toml::Value::String(another[1].to_string());
     let quantity_good_relative_form_of_value = toml::Value::String(one[1].to_string());
     single_change_table.insert(
-        "交换比例".to_string(),
+        "Exchange Ratio".to_string(),
         toml::Value::Array(vec![
             quantity_good_relative_form_of_value,
             quantity_good_equivalent_form_of_value,

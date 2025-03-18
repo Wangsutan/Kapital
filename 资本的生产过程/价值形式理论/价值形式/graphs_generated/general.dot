@@ -1,11 +1,11 @@
 digraph 价值形式理论 {
     rankdir=LR;
     node [shape=circle];
-    "上衣" -> "麻布" [label="1件: 20码"];
-    "咖啡" -> "麻布" [label="40磅: 20码"];
-    "商品A" -> "麻布" [label="x量: 20码"];
-    "小麦" -> "麻布" [label="1夸特: 20码"];
-    "茶叶" -> "麻布" [label="10磅: 20码"];
-    "金" -> "麻布" [label="2盎司: 20码"];
-    "铁" -> "麻布" [label="1/2吨: 20码"];
+    "Coffee" -> "Linen" [label="40 pounds: 20 yards"];
+    "Gold" -> "Linen" [label="2 ounces: 20 yards"];
+    "Iron" -> "Linen" [label="1/2 ton: 20 yards"];
+    "Product A" -> "Linen" [label="x quantity: 20 yards"];
+    "Shirt" -> "Linen" [label="1 piece: 20 yards"];
+    "Tea" -> "Linen" [label="10 pounds: 20 yards"];
+    "Wheat" -> "Linen" [label="1 quarter: 20 yards"];
 }
