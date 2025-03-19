@@ -4,6 +4,7 @@ import random
 import numpy as np
 import os
 from typing import Dict, Tuple, List, Any
+from concurrent.futures import ProcessPoolExecutor, as_completed, ThreadPoolExecutor
 
 # 配置参数
 coord_range: Dict[str, Tuple[int, int]] = {
@@ -25,11 +26,7 @@ def get_node_color(product_names: List[str]) -> List[Tuple[float, float, float]]
             colors.append((1.0, 0.843, 0.0))  # 金色节点 (RGB: 255, 215, 0)
         else:
             # 随机生成其他颜色 (归一化到 [0, 1] 范围)
-            colors.append((
-                random.random(),
-                random.random(),
-                random.random()
-            ))
+            colors.append((random.random(), random.random(), random.random()))
     return colors
 
 
@@ -88,7 +85,7 @@ def generate_3d_graph(dot_file_path: str) -> None:
         tgt_pos: np.ndarray = np.array(node_positions[target])
 
         direction: np.ndarray = tgt_pos - src_pos
-        length: float = np.linalg.norm(direction)
+        length: float = float(np.linalg.norm(direction))
         if length > 0:
             direction_normalized = direction / length
 
@@ -96,27 +93,35 @@ def generate_3d_graph(dot_file_path: str) -> None:
             cylinder_length = length - node_radius * 2 - arrow_length
             if cylinder_length > 0:
                 # 缩短圆柱体的起始位置，使其从源节点中心开始，减去箭头长度的一半
-                cylinder_start = src_pos + direction_normalized * (node_radius + arrow_length / 2)
-                cylinder_end = tgt_pos - direction_normalized * (node_radius + arrow_length / 2)
+                cylinder_start = src_pos + direction_normalized * (
+                    node_radius + arrow_length / 2
+                )
+                cylinder_end = tgt_pos - direction_normalized * (
+                    node_radius + arrow_length / 2
+                )
                 cylinder_center = (cylinder_start + cylinder_end) / 2
                 cylinder = pv.Cylinder(
                     center=cylinder_center,
                     direction=direction_normalized,
                     radius=edge_radius,  # 减小边的半径
                     height=cylinder_length,
-                    resolution=50  # 提高分辨率
+                    resolution=50,  # 提高分辨率
                 )
-                plotter.add_mesh(cylinder, color="gray", opacity=0.3, line_width=1)  # 半透明效果
+                plotter.add_mesh(
+                    cylinder, color="gray", opacity=0.3, line_width=1
+                )  # 半透明效果
                 cylinders.append(cylinder)
 
             # 添加箭头（锥体）
-            arrow_center = tgt_pos - direction_normalized * (node_radius + arrow_length / 2)
+            arrow_center = tgt_pos - direction_normalized * (
+                node_radius + arrow_length / 2
+            )
             arrow = pv.Cone(
                 center=arrow_center,
                 direction=direction_normalized,
                 radius=arrow_radius,
                 height=arrow_length,
-                resolution=50  # 提高分辨率
+                resolution=50,  # 提高分辨率
             )
             plotter.add_mesh(arrow, color="gray", opacity=0.3)  # 半透明效果
             arrows.append(arrow)
@@ -130,12 +135,19 @@ def generate_3d_graph(dot_file_path: str) -> None:
     for arrow in arrows:
         combined_mesh = combined_mesh.merge(arrow)
 
-    # 保存为文件
+    # 保存为文件（并行化）
     output_dir: str = os.path.dirname(dot_file_path)
-    for file_format in ['obj', 'stl', 'ply']:
-        output_path: str = os.path.join(output_dir, f"{graph_name}.{file_format}")
-        combined_mesh.save(output_path)
-        print(f"已生成 {file_format.upper()} 文件: {output_path}")
+    with ThreadPoolExecutor() as executor:
+        futures = []
+        for file_format in ["obj", "stl", "ply"]:
+            output_path: str = os.path.join(output_dir, f"{graph_name}.{file_format}")
+            futures.append(
+                executor.submit(save_mesh, combined_mesh, output_path, file_format)
+            )
+
+        # 等待所有保存任务完成
+        for future in futures:
+            future.result()
 
     # 显示 3D 场景
     # plotter.show()
@@ -143,16 +155,35 @@ def generate_3d_graph(dot_file_path: str) -> None:
     graph.close()
 
 
-# 遍历当前目录下的所有.dot文件
+# 保存文件的函数（用于并行化）
+def save_mesh(mesh, output_path: str, file_format: str) -> None:
+    try:
+        mesh.save(output_path)
+    except Exception as e:
+        print(f"保存文件 {output_path} 时出错: {e}")
+
+
+# 处理单个 DOT 文件的函数（用于并行化）
+def process_single_dot_file(file_path: str) -> None:
+    try:
+        generate_3d_graph(file_path)
+    except Exception as e:
+        print(f"处理文件 {file_path} 时出错: {e}")
+
+
+# 遍历当前目录下的所有.dot文件（并行化）
 def process_dot_files(directory: str = "./graphs_generated") -> None:
-    for filename in os.listdir(directory):
-        if filename.endswith(".dot"):
-            file_path: str = os.path.join(directory, filename)
-            print(f"正在处理文件: {file_path}")
-            try:
-                generate_3d_graph(file_path)
-            except Exception as e:
-                print(f"处理文件 {file_path} 时出错: {e}")
+    dot_files = [
+        os.path.join(directory, filename)
+        for filename in os.listdir(directory)
+        if filename.endswith(".dot")
+    ]
+
+    # 使用 ProcessPoolExecutor 并行处理
+    with ProcessPoolExecutor() as executor:
+        futures = [executor.submit(process_single_dot_file, file) for file in dot_files]
+        for future in as_completed(futures):
+            future.result()  # 等待任务完成
 
 
 # 主程序入口

@@ -4,6 +4,7 @@ import random
 import numpy as np
 import os
 from typing import Dict, Tuple, List, Any
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # 配置参数（新增节点半径参数）
 coord_range: Dict[str, Tuple[int, int]] = {
@@ -96,7 +97,7 @@ def visualize_graph(dot_file_path: str) -> None:
                 tgt_pos[2] - uz * node_radius,
             ]
         else:
-            start_point, end_point = src_pos, tgt_pos
+            start_point, end_point = list(src_pos), list(tgt_pos)
         # ========== 修改结束 ==========
 
         # 边的主体（使用新坐标）
@@ -154,21 +155,30 @@ def visualize_graph(dot_file_path: str) -> None:
         os.path.dirname(dot_file_path), f"{graph_name}.html"
     )
     fig.write_html(output_html_path)
-    print(f"已生成 HTML 文件: {output_html_path}")
-
     graph.close()
 
 
-# 遍历当前目录下的所有.dot文件
+# 处理单个 DOT 文件的函数（用于并行化）
+def process_single_dot_file(file_path: str) -> None:
+    try:
+        visualize_graph(file_path)
+    except Exception as e:
+        print(f"处理文件 {file_path} 时出错: {e}")
+
+
+# 遍历当前目录下的所有.dot文件（并行化）
 def process_dot_files(directory: str = "./graphs_generated") -> None:
-    for filename in os.listdir(directory):
-        if filename.endswith(".dot"):
-            file_path: str = os.path.join(directory, filename)
-            print(f"正在处理文件: {file_path}")
-            try:
-                visualize_graph(file_path)
-            except Exception as e:
-                print(f"处理文件 {file_path} 时出错: {e}")
+    dot_files = [
+        os.path.join(directory, filename)
+        for filename in os.listdir(directory)
+        if filename.endswith(".dot")
+    ]
+
+    # 使用 ProcessPoolExecutor 并行处理
+    with ProcessPoolExecutor() as executor:
+        futures = [executor.submit(process_single_dot_file, file) for file in dot_files]
+        for future in as_completed(futures):
+            future.result()  # 等待任务完成
 
 
 # 主程序入口

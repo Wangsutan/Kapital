@@ -1,3 +1,4 @@
+use rayon::prelude::*; // 引入 rayon 并行库
 use std::fs;
 use std::io::{self};
 use std::process::Command;
@@ -12,11 +13,13 @@ fn create_dot(value: Value) -> String {
         if let Some(equivalent_array_table) = table_good_equivalent_form_of_value.as_array() {
             for equivalent in equivalent_array_table {
                 if let Some(equivalent_table) = equivalent.as_table() {
-                    if let Some(good_equivalent) =
-                        equivalent_table.get("Product Name").and_then(|v| v.as_str())
+                    if let Some(good_equivalent) = equivalent_table
+                        .get("Product Name")
+                        .and_then(|v| v.as_str())
                     {
-                        if let Some(exchange_rate) =
-                            equivalent_table.get("Exchange Ratio").and_then(|v| v.as_array())
+                        if let Some(exchange_rate) = equivalent_table
+                            .get("Exchange Ratio")
+                            .and_then(|v| v.as_array())
                         {
                             let quantity_good_relative =
                                 exchange_rate[0].as_str().unwrap().trim_matches('"');
@@ -47,40 +50,53 @@ fn main() -> io::Result<()> {
     // 创建输出目录（如果不存在）
     fs::create_dir_all(output_dir)?;
 
-    for entry in WalkDir::new(dir) {
-        let entry = entry?;
-        let path = entry.path();
-        if path.extension().map_or(false, |e| e == "toml")
-            && path.file_name().unwrap() != "Cargo.toml"
-            && !path.file_name().unwrap().to_str().unwrap().contains("test")
-        {
-            let file_name = path.file_stem().unwrap().to_str().unwrap();
-            let content = fs::read_to_string(path)?;
-            let value: Value = toml::from_str(&content)?;
-
-            let dot: String = create_dot(value);
-
-            // 输出 DOT 描述到文件
-            let output_path = format!("{}/{}.dot", output_dir, file_name);
-            fs::write(&output_path, dot)?;
-
-            // 调用外部命令将 dot 文件转换成 png 图像
-            let output_img_path = format!("{}/{}.png", output_dir, file_name);
-            let status = Command::new("dot")
-                .arg("-Tpng")
-                .arg(&output_path)
-                .arg("-o")
-                .arg(&output_img_path)
-                .status()?;
-
-            if !status.success() {
-                return Err(io::Error::new(
-                    io::ErrorKind::Other,
-                    "Failed to execute dot command",
-                ));
+    // 收集所有需要处理的文件路径
+    let paths: Vec<_> = WalkDir::new(dir)
+        .into_iter()
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            let path = entry.path().to_path_buf();
+            if path.extension().map_or(false, |e| e == "toml")
+                && path.file_name().unwrap() != "Cargo.toml"
+                && !path.file_name().unwrap().to_str().unwrap().contains("test")
+            {
+                Some(path)
+            } else {
+                None
             }
+        })
+        .collect();
+
+    // 使用 rayon 并行处理文件
+    paths.par_iter().try_for_each(|path| {
+        let file_name = path.file_stem().unwrap().to_str().unwrap();
+        let content = fs::read_to_string(path)?;
+        let value: Value = toml::from_str(&content)?;
+
+        let dot: String = create_dot(value);
+
+        // 输出 DOT 描述到文件
+        let output_path = format!("{}/{}.dot", output_dir, file_name);
+        fs::write(&output_path, dot)?;
+
+        // 调用外部命令将 dot 文件转换成 png 图像
+        let output_img_path = format!("{}/{}.png", output_dir, file_name);
+        let status = Command::new("dot")
+            .arg("-Tpng")
+            .arg(&output_path)
+            .arg("-o")
+            .arg(&output_img_path)
+            .status()?;
+
+        if !status.success() {
+            return Err(io::Error::new(
+                io::ErrorKind::Other,
+                "Failed to execute dot command",
+            ));
         }
-    }
+
+        Ok(())
+    })?;
 
     Ok(())
 }

@@ -1,0 +1,10 @@
+[package]
+name = "check_graph"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dot = "0.1.4"
+petgraph = "0.7.1"
+rayon = "1.10.0"
+regex = "1.11.1"

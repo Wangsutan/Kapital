@@ -1,15 +1,16 @@
+use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
 use toml::Value;
-use walkdir::WalkDir;
+use walkdir::WalkDir; // 引入 rayon 并行库
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Product {
-    #[serde(rename = "Product Name")] // 自定义序列化和反序列化时的字段名称
+    #[serde(rename = "Product Name")]
     product_name: String,
-    #[serde(rename = "Exchange Ratio")] // 自定义序列化和反序列化时的字段名称
+    #[serde(rename = "Exchange Ratio")]
     exchange_rate: Vec<String>,
 }
 
@@ -20,14 +21,14 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
         if let Some(array) = table.as_array() {
             for item in array {
                 if let Some(item_table) = item.as_table() {
-                    if let Some(product_name) = item_table.get("Product Name").and_then(|v| v.as_str())
+                    if let Some(product_name) =
+                        item_table.get("Product Name").and_then(|v| v.as_str())
                     {
                         if let Some(exchange_rate) =
                             item_table.get("Exchange Ratio").and_then(|v| v.as_array())
                         {
                             let from = exchange_rate[0].as_str().unwrap().trim_matches('"');
                             let to = exchange_rate[1].as_str().unwrap().trim_matches('"');
-                            // println!("{}, {}, {}, {}", key, from, product_name, to);
                             goods.push([product_name.to_string(), to.to_string()]);
                             // 避免重复添加基础商品
                             if !goods.contains(&[key.to_string(), from.to_string()]) {
@@ -122,32 +123,45 @@ fn process_file(input_path: &Path, output_path: &str, file_name: &str) -> io::Re
 fn main() -> io::Result<()> {
     // 遍历指定目录下的所有toml文件
     let dir = "../"; // 指定要遍历的目录
-    for entry in WalkDir::new(dir) {
-        let entry = entry?;
-        let path = entry.path();
 
-        if let Some(file_name_os) = path.file_stem() {
-            if let Some(file_name) = file_name_os.to_str() {
-                // 过滤条件：toml文件，排除Cargo.toml和complete文件
-                if path.extension().map_or(false, |e| e == "toml")
-                    && !file_name.contains("Cargo")
-                    && !file_name.contains("complete")
-                    && !file_name.contains("test")
-                {
-                    println!("正在处理文件: {}", path.display());
+    // 收集所有需要处理的文件路径
+    let paths: Vec<_> = WalkDir::new(dir)
+        .min_depth(1)
+        .into_iter()
+        .filter_map(|e| e.ok())
+        .filter(|entry| {
+            let path = entry.path();
+            let file_name = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
 
-                    // 生成输出路径
-                    let output_path = Path::new(dir).join("datas_completed");
-                    fs::create_dir_all(&output_path)?; // 确保输出目录存在
+            // 过滤条件：toml文件，排除Cargo.toml和complete文件
+            path.extension().map_or(false, |e| e == "toml")
+                && !file_name.contains("Cargo")
+                && !file_name.contains("complete")
+                && !file_name.contains("test")
+        })
+        .map(|entry| entry.path().to_path_buf())
+        .collect();
 
-                    // 调用 process_file 函数
-                    process_file(path, output_path.to_str().unwrap(), file_name)?;
-                }
-            } else {
-                eprintln!("文件名包含无效的 UTF-8 字符: {}", path.display());
+    // 生成输出路径
+    let output_path = Path::new(dir).join("datas_completed");
+    fs::create_dir_all(&output_path)?; // 确保输出目录存在
+
+    // 使用 rayon 并行处理文件
+    let results: Vec<_> = paths
+        .par_iter() // 并行迭代器
+        .filter_map(|path| {
+            let file_name = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
+            match process_file(path, output_path.to_str().unwrap(), file_name) {
+                Ok(_) => None,
+                Err(e) => Some(format!("处理文件 {:?} 时出错: {}", path, e)),
             }
-        } else {
-            eprintln!("路径没有文件名: {}", path.display());
+        })
+        .collect();
+
+    // 打印所有错误信息
+    if !results.is_empty() {
+        for result in results {
+            eprintln!("{}", result);
         }
     }
 

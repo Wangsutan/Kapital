@@ -1,4 +1,6 @@
+use rayon::prelude::*; // 引入 rayon 并行库
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fs;
 use std::io::{self};
 use std::path::Path;
@@ -13,8 +15,6 @@ struct Product {
     exchange_rate: Vec<String>,
 }
 
-use std::collections::HashMap;
-
 /// 从TOML值中提取商品信息的函数，并判断每种key下的product_name是否有重复
 fn check_same_goods(value: &Value) -> Vec<String> {
     let mut errors = Vec::new();
@@ -24,7 +24,8 @@ fn check_same_goods(value: &Value) -> Vec<String> {
         if let Some(array) = table.as_array() {
             for (index, item) in array.iter().enumerate() {
                 if let Some(item_table) = item.as_table() {
-                    if let Some(product_name) = item_table.get("Product Name").and_then(|v| v.as_str())
+                    if let Some(product_name) =
+                        item_table.get("Product Name").and_then(|v| v.as_str())
                     {
                         // 判断每种key下的product_name是否有重复
                         let key_entry =
@@ -50,7 +51,7 @@ fn check_same_goods(value: &Value) -> Vec<String> {
     errors
 }
 
-fn process_file(input_path: &Path) -> io::Result<()> {
+fn process_file(input_path: &Path) -> io::Result<Vec<String>> {
     // 读取输入文件
     let content = fs::read_to_string(input_path)?;
     let value: Value = toml::from_str(&content)
@@ -58,34 +59,43 @@ fn process_file(input_path: &Path) -> io::Result<()> {
 
     let errors = check_same_goods(&value);
 
-    // 打印错误信息
-    if !errors.is_empty() {
-        println!("文件 {} 错误信息：", input_path.display());
-        for error in &errors {
-            println!("  {}", error);
-        }
-    }
-
-    Ok(())
+    Ok(errors)
 }
 
 fn main() -> io::Result<()> {
-    // 遍历指定目录下的所有toml文件
-    for entry in WalkDir::new("../")
+    // 收集所有需要处理的文件路径
+    let paths: Vec<_> = WalkDir::new("../")
         .min_depth(1)
         .into_iter()
         .filter_map(|e| e.ok())
-    {
-        let path = entry.path();
-        let file_name = path.file_name().unwrap().to_str().unwrap();
+        .filter(|entry| {
+            let path = entry.path();
+            let file_name = path.file_name().unwrap().to_str().unwrap();
 
-        // 过滤条件：toml文件，排除Cargo.toml和complete文件
-        if path.extension().map_or(false, |e| e == "toml")
-            && file_name != "Cargo.toml"
-            && !file_name.contains("complete")
-        {
-            process_file(path)?;
-        }
+            // 过滤条件：toml文件，排除Cargo.toml和complete文件
+            path.extension().map_or(false, |e| e == "toml")
+                && file_name != "Cargo.toml"
+                && !file_name.contains("complete")
+        })
+        .map(|entry| entry.path().to_path_buf())
+        .collect();
+
+    // 使用 rayon 并行处理文件
+    let results: Vec<_> = paths
+        .par_iter() // 并行迭代器
+        .filter_map(|path| match process_file(path) {
+            Ok(errors) if !errors.is_empty() => Some(format!(
+                "文件 {} 错误信息：\n  {}",
+                path.display(),
+                errors.join("\n  ")
+            )),
+            _ => None,
+        })
+        .collect();
+
+    // 打印所有错误信息
+    for result in results {
+        println!("{}", result);
     }
 
     Ok(())
