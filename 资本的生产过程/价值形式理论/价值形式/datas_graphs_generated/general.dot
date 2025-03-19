@@ -1,0 +1,11 @@
+digraph 价值形式理论 {
+    rankdir=LR;
+    node [shape=circle];
+    "Coffee" -> "Linen" [label="40 pounds: 20 yards"];
+    "Gold" -> "Linen" [label="2 ounces: 20 yards"];
+    "Iron" -> "Linen" [label="1/2 ton: 20 yards"];
+    "Product A" -> "Linen" [label="x quantity: 20 yards"];
+    "Shirt" -> "Linen" [label="1 piece: 20 yards"];
+    "Tea" -> "Linen" [label="10 pounds: 20 yards"];
+    "Wheat" -> "Linen" [label="1 quarter: 20 yards"];
+}

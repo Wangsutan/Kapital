@@ -10,7 +10,7 @@ rg -g "*.toml" -e "" --files --glob "!.toml" | while read -r file; do
 done
 
 # 定义 Rust 子项目目录
-RUST_PROJECTS=("check_data" "check_graph" "gen_graphviz" "gen_total_rs")
+RUST_PROJECTS=("check_data" "check_graph" "gen_graphviz" "gen_complete")
 
 # 并行格式化并检查每个 Rust 子项目
 for project in "${RUST_PROJECTS[@]}"; do

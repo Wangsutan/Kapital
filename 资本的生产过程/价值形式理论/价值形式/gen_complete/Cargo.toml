@@ -1,5 +1,5 @@
 [package]
-name = "gen_total_rs"
+name = "gen_complete"
 version = "0.1.0"
 edition = "2021"
 

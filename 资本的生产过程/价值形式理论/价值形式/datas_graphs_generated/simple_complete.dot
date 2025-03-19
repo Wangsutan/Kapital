@@ -1,0 +1,6 @@
+digraph 价值形式理论 {
+    rankdir=LR;
+    node [shape=circle];
+    "Linen" -> "Shirt" [label="20 yards: 1 piece"];
+    "Shirt" -> "Linen" [label="1 piece: 20 yards"];
+}

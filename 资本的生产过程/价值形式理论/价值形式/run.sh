@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "生成 TOML 文件……"
-cd gen_total_rs
+cd gen_complete
 cargo run
 if [ $? -ne 0 ]; then
     echo "生成 TOML 文件失败，请检查错误。"
