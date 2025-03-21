@@ -14,11 +14,11 @@ def validate_graph(file_path: str) -> None:
     print(f"有无重复交换: {check_duplicate_edges(G)}")
 
     is_complete, missing_edges = check_complete_graph(G)
-    print(f"每个商品是否直接交换所有其他节点: {is_complete}")
+    print(f"每个商品是否直接交换所有其他商品: {is_complete}")
     if not is_complete:
         print("\n=== 缺失的边 ===")
         for node, missing in missing_edges:
-            print(f"节点 `{node}` 未连接到: {missing}")
+            print(f"  节点 `{node}` 未连接到: {missing}")
 
     currencies: List[str] = find_currencies(G)
     print(f"货币形式数量: {len(currencies)}")
@@ -90,7 +90,7 @@ def find_currencies(G: nx.DiGraph) -> List[str]:
 
 
 # 遍历当前目录下的所有.dot文件
-def process_dot_files(directory: str = "./graphs_generated") -> None:
+def process_dot_files(directory: str = "./datas_graphs_generated") -> None:
     """
     遍历指定目录下的所有 .dot 文件，并对其进行验证。
     """

@@ -1,14 +1,7 @@
-[[Shirt]]
-"Exchange Ratio" = [
-    "1 piece",
-    "20 yards",
-]
-"Product Name" = "Linen"
-
 [[Linen]]
-"Exchange Ratio" = [
-    "20 yards",
-    "1 piece",
-]
+"Exchange Ratio" = ["20 yards", "1 piece"]
 "Product Name" = "Shirt"
 
+[[Shirt]]
+"Exchange Ratio" = ["1 piece", "20 yards"]
+"Product Name" = "Linen"

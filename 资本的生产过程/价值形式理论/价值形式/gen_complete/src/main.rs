@@ -1,10 +1,11 @@
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
 use toml::Value;
-use walkdir::WalkDir; // 引入 rayon 并行库
+use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Product {
@@ -16,7 +17,7 @@ struct Product {
 
 /// 从TOML值中提取商品信息的函数
 fn extract_goods(value: &Value) -> Vec<[String; 2]> {
-    let mut goods = Vec::new();
+    let mut goods_map = HashMap::new(); // 用于去重的 HashMap
     for (key, table) in value.as_table().unwrap().iter() {
         if let Some(array) = table.as_array() {
             for item in array {
@@ -29,18 +30,19 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
                         {
                             let from = exchange_rate[0].as_str().unwrap().trim_matches('"');
                             let to = exchange_rate[1].as_str().unwrap().trim_matches('"');
-                            goods.push([product_name.to_string(), to.to_string()]);
-                            // 避免重复添加基础商品
-                            if !goods.contains(&[key.to_string(), from.to_string()]) {
-                                goods.push([key.to_string(), from.to_string()]);
-                            }
+
+                            // 添加商品和兑换比例
+                            goods_map.insert(product_name.to_string(), to.to_string());
+                            goods_map.insert(key.to_string(), from.to_string());
                         }
                     }
                 }
             }
         }
     }
-    goods
+
+    // 将 HashMap 转换为 Vec<[String; 2]>
+    goods_map.into_iter().map(|(k, v)| [k, v]).collect()
 }
 
 /// 创建单个交换关系表的函数
@@ -54,7 +56,7 @@ fn create_single_change_table(
     let good_equivalent_form_of_value = toml::Value::String(another[0].to_string());
     single_change_table.insert("Product Name".to_string(), good_equivalent_form_of_value);
 
-    // 向等价物表中添加Exchange Ratio
+    // 向等价物表中添加 Exchange Ratio
     let quantity_good_equivalent_form_of_value = toml::Value::String(another[1].to_string());
     let quantity_good_relative_form_of_value = toml::Value::String(one[1].to_string());
     single_change_table.insert(
@@ -74,12 +76,10 @@ fn process_file(input_path: &Path, output_path: &str, file_name: &str) -> io::Re
     let content = fs::read_to_string(input_path)?;
     let value: Value = toml::from_str(&content)
         .map_err(|e| io::Error::new(io::ErrorKind::Other, e.to_string()))?;
-
     let goods = extract_goods(&value);
 
     // 生成输出文件名
     let output_path = Path::new(output_path).join(format!("{}_complete.toml", file_name));
-
     // 初始化输出文件
     fs::write(&output_path, "")?;
     let mut file = std::fs::OpenOptions::new()
@@ -131,10 +131,8 @@ fn main() -> io::Result<()> {
         .filter_map(|e| e.ok())
         .filter(|entry| {
             let path = entry.path();
-            let file_name = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
-
-            // 过滤条件：toml文件，排除Cargo.toml和complete文件
-            path.extension().map_or(false, |e| e == "toml")
+            let file_name = path.file_name().unwrap().to_str().unwrap();
+            path.extension().map_or(false, |ext| ext == "toml")
                 && !file_name.contains("Cargo")
                 && !file_name.contains("complete")
                 && !file_name.contains("test")
@@ -150,7 +148,7 @@ fn main() -> io::Result<()> {
     let results: Vec<_> = paths
         .par_iter() // 并行迭代器
         .filter_map(|path| {
-            let file_name = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
+            let file_name = path.file_name().unwrap().to_str().unwrap();
             match process_file(path, output_path.to_str().unwrap(), file_name) {
                 Ok(_) => None,
                 Err(e) => Some(format!("处理文件 {:?} 时出错: {}", path, e)),
@@ -165,6 +163,5 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("所有TOML文件处理完成");
     Ok(())
 }

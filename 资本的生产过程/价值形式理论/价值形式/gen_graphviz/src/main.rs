@@ -1,4 +1,4 @@
-use rayon::prelude::*; // 引入 rayon 并行库
+use rayon::prelude::*;
 use std::fs;
 use std::io::{self};
 use std::process::Command;
@@ -44,10 +44,9 @@ fn create_dot(value: Value) -> String {
 }
 
 fn main() -> io::Result<()> {
-    let dir = "../../"; // 指定要遍历的目录
-    let output_dir = "../graphs_generated"; // 指定输出目录
-
-    // 创建输出目录（如果不存在）
+    let dir = "../"; // 指定要遍历的目录
+    let output_dir = "../datas_graphs_generated"; // 指定输出目录
+                                                  // 创建输出目录（如果不存在）
     fs::create_dir_all(output_dir)?;
 
     // 收集所有需要处理的文件路径
@@ -56,7 +55,7 @@ fn main() -> io::Result<()> {
         .filter_map(|entry| {
             let entry = entry.ok()?;
             let path = entry.path().to_path_buf();
-            if path.extension().map_or(false, |e| e == "toml")
+            if path.extension().map_or(false, |ext| ext == "toml")
                 && path.file_name().unwrap() != "Cargo.toml"
                 && !path.file_name().unwrap().to_str().unwrap().contains("test")
             {
@@ -72,7 +71,6 @@ fn main() -> io::Result<()> {
         let file_name = path.file_stem().unwrap().to_str().unwrap();
         let content = fs::read_to_string(path)?;
         let value: Value = toml::from_str(&content)?;
-
         let dot: String = create_dot(value);
 
         // 输出 DOT 描述到文件

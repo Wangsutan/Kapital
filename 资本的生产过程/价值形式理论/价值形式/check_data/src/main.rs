@@ -28,8 +28,7 @@ fn check_same_goods(value: &Value) -> Vec<String> {
                         item_table.get("Product Name").and_then(|v| v.as_str())
                     {
                         // 判断每种key下的product_name是否有重复
-                        let key_entry =
-                            key_product_map.entry(key.to_string()).or_insert(Vec::new());
+                        let key_entry = key_product_map.entry(key.clone()).or_insert(Vec::new());
 
                         // 检查是否重复
                         if let Some((_, line)) =
@@ -71,9 +70,8 @@ fn main() -> io::Result<()> {
         .filter(|entry| {
             let path = entry.path();
             let file_name = path.file_name().unwrap().to_str().unwrap();
-
             // 过滤条件：toml文件，排除Cargo.toml和complete文件
-            path.extension().map_or(false, |e| e == "toml")
+            path.extension().map_or(false, |ext| ext == "toml")
                 && file_name != "Cargo.toml"
                 && !file_name.contains("complete")
         })
@@ -94,8 +92,10 @@ fn main() -> io::Result<()> {
         .collect();
 
     // 打印所有错误信息
-    for result in results {
-        println!("{}", result);
+    if !results.is_empty() {
+        for result in results {
+            eprintln!("{}", result);
+        }
     }
 
     Ok(())

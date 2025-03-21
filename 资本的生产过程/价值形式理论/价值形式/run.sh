@@ -41,7 +41,7 @@ cd ..
 echo "Graphviz 文件检查完成。"
 
 echo "生成 3D 可视化文件 (HTML)……"
-python 3d_plotly_future.py
+python gen_3d_plotly.py
 if [ $? -ne 0 ]; then
     echo "生成 3D 可视化文件 (HTML) 失败，请检查错误。"
     exit 1
@@ -49,7 +49,7 @@ fi
 echo "3D 可视化文件 (HTML) 生成完成。"
 
 echo "生成 3D 图形文件 (OBJ/STL/PLY)……"
-python gen_3d.py
+python gen_3d_pyvista.py
 if [ $? -ne 0 ]; then
     echo "生成 3D 图形文件 (OBJ/STL/PLY) 失败，请检查错误。"
     exit 1

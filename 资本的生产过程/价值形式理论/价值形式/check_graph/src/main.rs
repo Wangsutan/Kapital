@@ -1,14 +1,23 @@
 use petgraph::graph::DiGraph;
 use petgraph::stable_graph::NodeIndex;
 use petgraph::visit::EdgeRef;
-use rayon::prelude::*; // 引入 rayon 并行库
+use rayon::prelude::*;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::sync::mpsc; // 用于线程间通信
 
+lazy_static::lazy_static! {
+        // 孤立节点
+    static ref NODE_PATTERN: Regex = Regex::new(r#""((?:\\"|[^"])*)""#).unwrap();
+        // 带标签的边，有四个捕获组：1. 源节点名称，2. 目标节点名称， 3. 整个 [label="..."] 部分， 4. 标签内容
+    static ref EDGE_PATTERN: Regex = Regex::new(
+        r#""((?:\\"|[^"])*)"\s*->\s*"((?:\\"|[^"])*)"\s*(\[label="((?:\\"|[^"])*)")?\]?"#,
+    ).unwrap();
+}
+
 fn main() {
-    let directory = "../graphs_generated";
+    let directory = "../datas_graphs_generated";
     if let Err(e) = process_dot_files(directory) {
         eprintln!("处理文件时出错: {}", e);
     }
@@ -34,12 +43,15 @@ fn process_dot_files(directory: &str) -> Result<(), Box<dyn std::error::Error>> 
     // 使用 rayon 并行处理文件
     paths.par_iter().for_each_with(sender, |s, path| {
         let file_name = path.file_name().unwrap().to_str().unwrap().to_string();
-        let dot_content = fs::read_to_string(path).unwrap();
-        if let Some(graph) = parse_dot(&dot_content) {
-            let output = validate_graph_output(&graph);
-            s.send((file_name, output)).unwrap(); // 发送文件名和输出
+        if let Ok(dot_content) = fs::read_to_string(path) {
+            if let Some(graph) = parse_dot(&dot_content) {
+                let output = validate_graph_output(&graph);
+                s.send((file_name, output)).unwrap();
+            } else {
+                eprintln!("无法解析 DOT 文件: {:?}", path);
+            }
         } else {
-            eprintln!("无法解析 DOT 文件: {:?}", path);
+            eprintln!("无法读取文件: {:?}", path);
         }
     });
 
@@ -61,14 +73,7 @@ fn process_dot_files(directory: &str) -> Result<(), Box<dyn std::error::Error>> 
 
 fn parse_dot(dot_content: &str) -> Option<DiGraph<String, String>> {
     let mut di_graph = DiGraph::<String, String>::new();
-    let mut node_map = HashMap::new();
-
-    // 正则表达式匹配节点和边
-    let node_pattern = Regex::new(r#""((?:\\"|[^"])*)""#).unwrap();
-    let edge_pattern = Regex::new(
-        r#""((?:\\"|[^"])*)"\s*->\s*"((?:\\"|[^"])*)"\s*(\[label="((?:\\"|[^"])*)")?\]?"#,
-    )
-    .unwrap();
+    let mut node_map = HashMap::new(); // 缓存节点以避免重复添加
 
     for line in dot_content.lines() {
         let line = line.trim();
@@ -77,7 +82,7 @@ fn parse_dot(dot_content: &str) -> Option<DiGraph<String, String>> {
         }
 
         // 解析边
-        if let Some(caps) = edge_pattern.captures(line) {
+        if let Some(caps) = EDGE_PATTERN.captures(line) {
             let source = caps[1].replace(r#"\""#, "\"");
             let target = caps[2].replace(r#"\""#, "\"");
             let label = caps
@@ -93,11 +98,11 @@ fn parse_dot(dot_content: &str) -> Option<DiGraph<String, String>> {
             di_graph.add_edge(source_idx, target_idx, label);
         }
         // 解析孤立节点
-        else if let Some(caps) = node_pattern.captures(line) {
+        else if let Some(caps) = NODE_PATTERN.captures(line) {
             let node = caps[1].replace(r#"\""#, "\"");
             node_map
                 .entry(node.clone())
-                .or_insert_with(|| di_graph.add_node(node));
+                .or_insert_with(|| di_graph.add_node(node)); // 确保孤立节点亦被添加到图中
         }
     }
 
@@ -108,48 +113,103 @@ fn parse_dot(dot_content: &str) -> Option<DiGraph<String, String>> {
 fn validate_graph_output(graph: &DiGraph<String, String>) -> String {
     let mut output = String::new();
 
-    output.push_str(&format!("有无自身交换: {}\n", check_self_loops(graph)));
-    output.push_str(&format!("有无重复交换: {}\n", check_duplicate_edges(graph)));
+    let (has_self_loop, self_loop_nodes) = check_self_loops(graph);
+    if has_self_loop {
+        output.push_str("存在自身交换\n");
+        for node in self_loop_nodes {
+            output.push_str(&format!("  {}\n", graph[node]));
+        }
+    } else {
+        output.push_str("不存在自身交换\n");
+    }
+
+    let (has_duplicate, duplicate_edges) = check_duplicate_edges(graph);
+    if has_duplicate {
+        output.push_str("存在重复交换\n");
+        for (source, target) in &duplicate_edges {
+            output.push_str(&format!(
+                "  {} -> {}\n",
+                graph[source.clone()],
+                graph[target.clone()]
+            ));
+        }
+    } else {
+        output.push_str("不存在重复交换\n");
+    }
 
     let (is_complete, missing_edges) = check_complete_graph(graph);
-    output.push_str(&format!(
-        "每个商品是否直接交换所有其他节点: {}\n",
-        is_complete
-    ));
-    if !is_complete {
-        output.push_str("\n缺失的边：\n");
+    if is_complete {
+        output.push_str(&format!("每个商品直接交换所有其他商品\n"));
+    } else {
+        output.push_str("\n缺失的交换关系：\n");
         for (node, missing) in missing_edges {
-            output.push_str(&format!("节点 `{}` 未连接到: {:?}\n", graph[node], missing));
+            output.push_str(&format!(
+                "  节点 `{}` 未连接到: {:?}\n",
+                graph[node], missing
+            ));
         }
     }
 
     let currencies = find_currencies(graph);
-    output.push_str(&format!("货币形式数量: {}\n", currencies.len()));
-    if !currencies.is_empty() {
-        output.push_str(&format!("货币形式为: {}\n", currencies.join(", ")));
+    if currencies.is_empty() {
+        output.push_str(&format!("不存在货币\n"));
+    } else {
+        output.push_str(&format!("货币形式数量：{}\n", currencies.len()));
+        output.push_str(&format!("  {}\n", currencies.join(", ")));
     }
 
     output
 }
 
 /// 检查图中是否存在自环
-fn check_self_loops(graph: &DiGraph<String, String>) -> bool {
-    graph
-        .edge_references()
-        .any(|edge| edge.source() == edge.target())
+fn check_self_loops(graph: &DiGraph<String, String>) -> (bool, Vec<NodeIndex>) {
+    let edges: Vec<_> = graph.edge_references().collect();
+    let has_self_loop = std::sync::Mutex::new(false);
+    let self_loop_nodes = std::sync::Mutex::new(Vec::new());
+
+    // 并行遍历边
+    edges.par_iter().for_each(|&edge| {
+        if edge.source() == edge.target() {
+            *has_self_loop.lock().unwrap() = true;
+            self_loop_nodes.lock().unwrap().push(edge.source());
+        }
+    });
+
+    (
+        has_self_loop.into_inner().unwrap(),
+        self_loop_nodes.into_inner().unwrap(),
+    )
 }
 
 /// 检查图中是否存在重复边
-fn check_duplicate_edges(graph: &DiGraph<String, String>) -> bool {
-    let mut edge_set = HashSet::new();
-    for edge in graph.edge_references() {
+fn check_duplicate_edges(graph: &DiGraph<String, String>) -> (bool, Vec<(NodeIndex, NodeIndex)>) {
+    let edges: Vec<_> = graph.edge_references().collect();
+    let has_duplicate = std::sync::Mutex::new(false);
+    let duplicate_edges = std::sync::Mutex::new(Vec::new());
+    let edge_set = std::sync::Mutex::new(HashSet::new());
+
+    // 并行遍历边
+    edges.par_iter().for_each(|&edge| {
         let key = (edge.source(), edge.target());
-        if edge_set.contains(&key) {
-            return true;
+        let contains = {
+            let mut edge_set = edge_set.lock().unwrap();
+            if edge_set.contains(&key) {
+                true
+            } else {
+                edge_set.insert(key);
+                false
+            }
+        };
+        if contains {
+            *has_duplicate.lock().unwrap() = true;
+            duplicate_edges.lock().unwrap().push(key);
         }
-        edge_set.insert(key);
-    }
-    false
+    });
+
+    (
+        has_duplicate.into_inner().unwrap(),
+        duplicate_edges.into_inner().unwrap(),
+    )
 }
 
 /// 检查图是否是完全图（并行化）
@@ -182,7 +242,8 @@ fn check_complete_graph(graph: &DiGraph<String, String>) -> (bool, Vec<(NodeInde
 /// 查找图中的货币形式（并行化）
 fn find_currencies(graph: &DiGraph<String, String>) -> Vec<String> {
     let total_nodes = graph.node_count();
-    let total_nodes_min = 3;
+    let total_nodes_min = 4; // 总边数不能太少，意思是市场中有必要数量的商品。
+    let node_outgoing_max = 3; // 货币作为相对价值形式的最大数量，意思是它不能过多地把别的商品作为货币。
 
     // 将 NodeIndices 转换为 Vec<NodeIndex>，然后使用 par_iter
     let nodes: Vec<NodeIndex> = graph.node_indices().collect();
@@ -190,12 +251,12 @@ fn find_currencies(graph: &DiGraph<String, String>) -> Vec<String> {
     nodes
         .par_iter() // 并行迭代器
         .filter(|&&node| {
-            graph.edges(node).count() <= 3
-                && graph
-                    .edges_directed(node, petgraph::Direction::Incoming)
-                    .count()
-                    == total_nodes - 1
-                && total_nodes > total_nodes_min
+            let node_ingoing_count = graph
+                .edges_directed(node, petgraph::Direction::Incoming)
+                .count();
+            total_nodes >= total_nodes_min
+                && graph.edges(node).count() <= node_outgoing_max
+                && node_ingoing_count == total_nodes - 1
         })
         .map(|&node| graph[node].clone())
         .collect()
