@@ -8,9 +8,9 @@ use toml::Value;
 use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Product {
-    #[serde(rename = "Product Name")]
-    product_name: String,
+struct Good {
+    #[serde(rename = "Good Name")]
+    good_name: String,
     #[serde(rename = "Exchange Ratio")]
     exchange_rate: Vec<String>,
 }
@@ -24,22 +24,20 @@ fn check_same_goods(value: &Value) -> Vec<String> {
         if let Some(array) = table.as_array() {
             for (index, item) in array.iter().enumerate() {
                 if let Some(item_table) = item.as_table() {
-                    if let Some(product_name) =
-                        item_table.get("Product Name").and_then(|v| v.as_str())
-                    {
+                    if let Some(good_name) = item_table.get("Good Name").and_then(|v| v.as_str()) {
                         // 判断每种key下的product_name是否有重复
                         let key_entry = key_product_map.entry(key.clone()).or_insert(Vec::new());
 
                         // 检查是否重复
                         if let Some((_, line)) =
-                            key_entry.iter().find(|(name, _)| name == product_name)
+                            key_entry.iter().find(|(name, _)| name == good_name)
                         {
                             errors.push(format!(
                                 "在相对价值物 {} 下，等价物 {} 重复，首次出现在第 {} 行，当前行号为 {}",
-                                key, product_name, line, index + 1
+                                key, good_name, line, index + 1
                             ));
                         } else {
-                            key_entry.push((product_name.to_string(), index + 1)); // 记录行号
+                            key_entry.push((good_name.to_string(), index + 1)); // 记录行号
                         }
                     }
                 }

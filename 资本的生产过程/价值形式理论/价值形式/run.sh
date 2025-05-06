@@ -40,6 +40,16 @@ fi
 cd ..
 echo "Graphviz 文件检查完成。"
 
+echo "运行价值形式全过程模拟器……"
+cd value_form_process_simulator
+cargo run
+if [ $? -ne 0 ]; then
+    echo "运行价值形式全过程模拟器失败，请检查错误。"
+    exit 1
+fi
+cd ..
+echo "价值形式全过程模拟器运行完成。"
+
 echo "生成 3D 可视化文件 (HTML)……"
 python gen_3d_plotly.py
 if [ $? -ne 0 ]; then
@@ -55,5 +65,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo "3D 图形文件 (OBJ/STL/PLY) 生成完成。"
+
+echo "生成价值形式动态图形文件……"
+python value_form_process_simulator.py
+if [ $? -ne 0 ]; then
+    echo "生成价值形式动态图形文件失败，请检查错误。"
+    exit 1
+fi
+echo "价值形式动态图形文件生成完成。"
 
 echo "所有步骤已完成！"

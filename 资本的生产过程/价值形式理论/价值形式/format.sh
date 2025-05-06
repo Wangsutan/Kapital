@@ -10,7 +10,7 @@ rg -g "*.toml" -e "" --files --glob "!.toml" | while read -r file; do
 done
 
 # 定义 Rust 子项目目录
-RUST_PROJECTS=("check_data" "check_graph" "gen_graphviz" "gen_complete")
+RUST_PROJECTS=("check_data" "check_graph" "gen_graphviz" "gen_complete" "value_form_process_simulator")
 
 # 并行格式化并检查每个 Rust 子项目
 for project in "${RUST_PROJECTS[@]}"; do
@@ -18,6 +18,7 @@ for project in "${RUST_PROJECTS[@]}"; do
     cd "$project" || { echo "Failed to enter $project"; exit 1; }
     cargo fmt --quiet || exit 1
     cargo check --quiet || exit 1
+    cargo test --quiet || exit 1
   ) &
 done
 

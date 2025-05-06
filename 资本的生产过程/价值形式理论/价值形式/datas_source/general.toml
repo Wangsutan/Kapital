@@ -1,27 +1,27 @@
 [["Shirt"]]
-"Product Name" = "Linen"
+"Good Name" = "Linen"
 "Exchange Ratio" = ["1 piece", "20 yards"]
 
 [["Tea"]]
-"Product Name" = "Linen"
+"Good Name" = "Linen"
 "Exchange Ratio" = ["10 pounds", "20 yards"]
 
 [["Coffee"]]
-"Product Name" = "Linen"
+"Good Name" = "Linen"
 "Exchange Ratio" = ["40 pounds", "20 yards"]
 
 [["Wheat"]]
-"Product Name" = "Linen"
+"Good Name" = "Linen"
 "Exchange Ratio" = ["1 quarter", "20 yards"]
 
 [["Gold"]]
-"Product Name" = "Linen"
+"Good Name" = "Linen"
 "Exchange Ratio" = ["2 ounces", "20 yards"]
 
 [["Iron"]]
-"Product Name" = "Linen"
+"Good Name" = "Linen"
 "Exchange Ratio" = ["1/2 ton", "20 yards"]
 
-[["Product A"]]
-"Product Name" = "Linen"
+[["Good A"]]
+"Good Name" = "Linen"
 "Exchange Ratio" = ["x quantity", "20 yards"]

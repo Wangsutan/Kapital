@@ -9,8 +9,8 @@ use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Product {
-    #[serde(rename = "Product Name")]
-    product_name: String,
+    #[serde(rename = "Good Name")]
+    good_name: String,
     #[serde(rename = "Exchange Ratio")]
     exchange_rate: Vec<String>,
 }
@@ -22,9 +22,7 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
         if let Some(array) = table.as_array() {
             for item in array {
                 if let Some(item_table) = item.as_table() {
-                    if let Some(product_name) =
-                        item_table.get("Product Name").and_then(|v| v.as_str())
-                    {
+                    if let Some(good_name) = item_table.get("Good Name").and_then(|v| v.as_str()) {
                         if let Some(exchange_rate) =
                             item_table.get("Exchange Ratio").and_then(|v| v.as_array())
                         {
@@ -32,7 +30,7 @@ fn extract_goods(value: &Value) -> Vec<[String; 2]> {
                             let to = exchange_rate[1].as_str().unwrap().trim_matches('"');
 
                             // 添加商品和兑换比例
-                            goods_map.insert(product_name.to_string(), to.to_string());
+                            goods_map.insert(good_name.to_string(), to.to_string());
                             goods_map.insert(key.to_string(), from.to_string());
                         }
                     }
@@ -54,7 +52,7 @@ fn create_single_change_table(
 
     // 向等价物表中添加等价物名称
     let good_equivalent_form_of_value = toml::Value::String(another[0].to_string());
-    single_change_table.insert("Product Name".to_string(), good_equivalent_form_of_value);
+    single_change_table.insert("Good Name".to_string(), good_equivalent_form_of_value);
 
     // 向等价物表中添加 Exchange Ratio
     let quantity_good_equivalent_form_of_value = toml::Value::String(another[1].to_string());

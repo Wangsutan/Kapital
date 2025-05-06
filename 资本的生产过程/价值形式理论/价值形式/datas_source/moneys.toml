@@ -1,63 +1,63 @@
 [["Linen"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["20 yards", "2 ounces"]
 
 [["Linen"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["20 yards", "32 ounces"]
 
 [["Shirt"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["1 piece", "2 ounces"]
 
 [["Shirt"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["1 piece", "32 ounces"]
 
 [["Tea"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["10 pounds", "2 ounces"]
 
 [["Tea"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["10 pounds", "32 ounces"]
 
 [["Coffee"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["40 pounds", "2 ounces"]
 
 [["Coffee"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["40 pounds", "32 ounces"]
 
 [["Wheat"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["1 quarter", "2 ounces"]
 
 [["Wheat"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["1 quarter", "32 ounces"]
 
 [["Iron"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["1/2 ton", "2 ounces"]
 
 [["Iron"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["1/2 ton", "32 ounces"]
 
-[["Product A"]]
-"Product Name" = "Gold"
+[["Good A"]]
+"Good Name" = "Gold"
 "Exchange Ratio" = ["x quantity", "2 ounces"]
 
-[["Product A"]]
-"Product Name" = "Silver"
+[["Good A"]]
+"Good Name" = "Silver"
 "Exchange Ratio" = ["x quantity", "32 ounces"]
 
 [["Silver"]]
-"Product Name" = "Gold"
+"Good Name" = "Gold"
 "Exchange Ratio" = ["32 ounces", "2 ounces"]
 
 [["Gold"]]
-"Product Name" = "Silver"
+"Good Name" = "Silver"
 "Exchange Ratio" = ["2 ounces", "32 ounces"]

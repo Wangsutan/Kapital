@@ -13,9 +13,8 @@ fn create_dot(value: Value) -> String {
         if let Some(equivalent_array_table) = table_good_equivalent_form_of_value.as_array() {
             for equivalent in equivalent_array_table {
                 if let Some(equivalent_table) = equivalent.as_table() {
-                    if let Some(good_equivalent) = equivalent_table
-                        .get("Product Name")
-                        .and_then(|v| v.as_str())
+                    if let Some(good_equivalent) =
+                        equivalent_table.get("Good Name").and_then(|v| v.as_str())
                     {
                         if let Some(exchange_rate) = equivalent_table
                             .get("Exchange Ratio")

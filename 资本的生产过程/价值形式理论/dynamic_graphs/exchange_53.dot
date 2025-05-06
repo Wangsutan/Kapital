@@ -1,0 +1,25 @@
+digraph {
+    layout=neato;
+    overlap=false;
+    splines=true;
+    Gold [pos="2.367565076301259,6.840038203577841", style=filled, fillcolor="gold"];
+    Silver [pos="2.947939706216598,9.149002845866756", style=filled, fillcolor="silver"];
+    Fish [pos="5.256440261377291,2.2444286189253537", style=filled, fillcolor="#a95899"];
+    Meat [pos="2.3107666472561705,7.098918084144259", style=filled, fillcolor="#663f44"];
+    Grain [pos="0.018235149857321886,4.298180738751696", style=filled, fillcolor="#7bdb15"];
+    Cloth [pos="5.925335908812544,4.450181838048703", style=filled, fillcolor="#7f6524"];
+    Wood [pos="7.9294931737001395,7.366591547182944", style=filled, fillcolor="#b05f61"];
+    Salt [pos="6.656849949820057,4.076485070741747", style=filled, fillcolor="#238fc8"];
+    Gold -> Cloth [color="#ff0000", arrowsize=0.8];
+    Silver -> Cloth [color="#ff0000", arrowsize=0.8];
+    Fish -> Gold [color="#ff0000", arrowsize=0.8];
+    Fish -> Silver [color="#ff0000", arrowsize=0.8];
+    Fish -> Grain [color="#ff0000", arrowsize=0.8];
+    Meat -> Grain [color="#ff0000", arrowsize=0.8];
+    Grain -> Salt [color="#ff0000", arrowsize=0.8];
+    Cloth -> Salt [color="#00ff00", arrowsize=0.8];
+    Wood -> Meat [color="#ff0000", arrowsize=0.8];
+    Salt -> Silver [color="#ff0000", arrowsize=0.8];
+    Salt -> Meat [color="#ff0000", arrowsize=0.8];
+    Salt -> Cloth [color="#00ff00", arrowsize=0.8];
+}
