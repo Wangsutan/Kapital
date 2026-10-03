@@ -7,5 +7,9 @@ def calc_profit_rate_indistinctly(advanced_capital, surplus_value):
 
 
 if __name__ == "__main__":
-    print(f"Distinct Profit Rate: {calc_profit_rate_distinctly(800.00, 200.00, 200.00) * 100.00:.2f}%")
-    print(f"Indistinct Profit Rate: {calc_profit_rate_indistinctly(1000.00, 200.00) * 100.00:.2f}%")
+    print(
+        f"Distinct Profit Rate: {calc_profit_rate_distinctly(800.00, 200.00, 200.00) * 100.00:.2f}%"
+    )
+    print(
+        f"Indistinct Profit Rate: {calc_profit_rate_indistinctly(1000.00, 200.00) * 100.00:.2f}%"
+    )

@@ -1,7 +1,14 @@
 [[Linen]]
-"Exchange Ratio" = ["20 yards", "1 piece"]
+"Exchange Ratio" = [
+    "20 yards",
+    "1 piece",
+]
 "Good Name" = "Shirt"
 
 [[Shirt]]
-"Exchange Ratio" = ["1 piece", "20 yards"]
+"Exchange Ratio" = [
+    "1 piece",
+    "20 yards",
+]
 "Good Name" = "Linen"
+

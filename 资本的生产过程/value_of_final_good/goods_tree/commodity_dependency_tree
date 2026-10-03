@@ -1,0 +1,65 @@
+// 商品价值依赖树
+digraph {
+	fontname="Microsoft YaHei" rankdir=TB size="12,8"
+	"饲料" [label="饲料\n价值: 0.000900" fillcolor=lightblue shape=box style=filled]
+	"茶叶蛋" [label="茶叶蛋\n价值: 1.513800" fillcolor=lightblue shape=box style=filled]
+	"鸡蛋" [label="鸡蛋\n价值: 0.190000" fillcolor=lightblue shape=box style=filled]
+	"冰糖" [label="冰糖\n价值: 0.010400" fillcolor=lightblue shape=box style=filled]
+	"鸡蛋" -> "茶叶蛋" [label="1.0×0.190000
+= 0.190000"]
+	"冰糖" -> "茶叶蛋" [label="10.0×0.010400
+= 0.104000"]
+	"饲料" -> "鸡蛋" [label="100.0×0.000900
+= 0.090000"]
+	"劳动" -> "茶叶蛋" [label="0.1×4.000000
+= 0.400000" color=gray style=dashed]
+	"八角" -> "茶叶蛋" [label="5.0×0.009000
+= 0.045000" color=gray style=dashed]
+	"花椒" -> "茶叶蛋" [label="5.0×0.010000
+= 0.050000" color=gray style=dashed]
+	"香叶" -> "茶叶蛋" [label="2.0×0.005000
+= 0.010000" color=gray style=dashed]
+	"桂皮" -> "茶叶蛋" [label="2.0×0.006000
+= 0.012000" color=gray style=dashed]
+	"小茴香" -> "茶叶蛋" [label="2.0×0.010000
+= 0.020000" color=gray style=dashed]
+	"红茶" -> "茶叶蛋" [label="10.0×0.020000
+= 0.200000" color=gray style=dashed]
+	"老抽" -> "茶叶蛋" [label="10.0×0.010000
+= 0.100000" color=gray style=dashed]
+	"生抽" -> "茶叶蛋" [label="10.0×0.010000
+= 0.100000" color=gray style=dashed]
+	"盐" -> "茶叶蛋" [label="10.0×0.001000
+= 0.010000" color=gray style=dashed]
+	"燃气" -> "茶叶蛋" [label="0.01×2.280000
+= 0.022800" color=gray style=dashed]
+	"炊具" -> "茶叶蛋" [label="1.0×0.250000
+= 0.250000" color=gray style=dashed]
+	"自然力" -> "茶叶蛋" [label="1.0×0.000000
+= 0.000000" color=gray style=dashed]
+	"鸡圈" -> "鸡蛋" [label="1.0×0.080000
+= 0.080000" color=gray style=dashed]
+	"劳动" -> "鸡蛋" [label="0.005×4.000000
+= 0.020000" color=gray style=dashed]
+	"自然力" -> "鸡蛋" [label="1.0×0.000000
+= 0.000000" color=gray style=dashed]
+	"机器" -> "饲料" [label="1.0×0.000500
+= 0.000500" color=gray style=dashed]
+	"劳动" -> "饲料" [label="0.0001×4.000000
+= 0.000400" color=gray style=dashed]
+	"自然力" -> "饲料" [label="1.0×0.000000
+= 0.000000" color=gray style=dashed]
+	"劳动" -> "冰糖" [label="0.0001×4.000000
+= 0.000400" color=gray style=dashed]
+	"机器" -> "冰糖" [label="0.0001×100.000000
+= 0.010000" color=gray style=dashed]
+	"自然力" -> "冰糖" [label="1.0×0.000000
+= 0.000000" color=gray style=dashed]
+	subgraph cluster_legend {
+		fillcolor="#F0F0F0" fontsize=12 label="图例" style="rounded,filled"
+		commodity [label="需递归生产要素节点" fillcolor=lightblue shape=box style=filled]
+		resource [label="无需递归生产要素节点" fillcolor="#FFD700" shape=ellipse style=filled]
+		dep1 [label="需递归生产要素依赖关系" shape=plaintext]
+		dep2 [label="无需递归生产要素依赖" color=gray shape=plaintext style=dashed]
+	}
+}

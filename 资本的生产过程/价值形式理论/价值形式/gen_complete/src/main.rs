@@ -77,7 +77,8 @@ fn process_file(input_path: &Path, output_path: &str, file_name: &str) -> io::Re
     let goods = extract_goods(&value);
 
     // 生成输出文件名
-    let output_path = Path::new(output_path).join(format!("{}_complete.toml", file_name));
+    let output_path =
+        Path::new(output_path).join(format!("{}_complete.toml", file_name.replace(".toml", "")));
     // 初始化输出文件
     fs::write(&output_path, "")?;
     let mut file = std::fs::OpenOptions::new()

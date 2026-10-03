@@ -1,0 +1,12 @@
+get_variable_capital variable_capital_num variable_capital_value = variable_capital_num * variable_capital_value
+get_constant_capital constant_capital_num constant_capital_value = constant_capital_num * constant_capital_value
+
+get_value_total variable_capital_num variable_capital_value constant_capital_num constant_capital_value = get_variable_capital variable_capital_num variable_capital_value + get_constant_capital constant_capital_num constant_capital_value
+get_value_composition_of_capital variable_capital_num variable_capital_value constant_capital_num constant_capital_value = get_constant_capital constant_capital_num constant_capital_value / get_variable_capital variable_capital_num variable_capital_value
+get_technical_composition_of_capital variable_capital_num constant_capital_num = constant_capital_num / variable_capital_num
+
+variable_capital_value = 7.2
+variable_capital_num = 120
+
+constant_capital_value = 10
+constant_capital_num = 15

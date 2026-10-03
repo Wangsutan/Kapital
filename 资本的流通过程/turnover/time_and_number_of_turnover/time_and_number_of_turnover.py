@@ -8,8 +8,7 @@ if __name__ == "__main__":
 
     turnover_time_list = np.linspace(1, 24, num=24)
     turnover_num_list = [
-        calc_turnover_num(12, turnover_time)
-        for turnover_time in turnover_time_list
+        calc_turnover_num(12, turnover_time) for turnover_time in turnover_time_list
     ]
 
     plt.xlabel("Turnover Time(Months)")

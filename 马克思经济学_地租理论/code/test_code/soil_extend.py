@@ -6,7 +6,7 @@ myColumns = [
     "Price of Production Total",
     "Product",
     "Rent in Grain",
-    "Rent in Money"
+    "Rent in Money",
 ]
 
 myIndex = ["A", "B", "C", "D"]

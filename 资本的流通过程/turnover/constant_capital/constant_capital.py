@@ -27,12 +27,10 @@ if __name__ == "__main__":
     total_value_of_constant_capital = 100000
     entire_function_time = 5
 
-    function_time_list = np.arange(
-        0, entire_function_time, entire_function_time / 100)
+    function_time_list = np.arange(0, entire_function_time, entire_function_time / 100)
 
     yield_value_list = [
-        calc_yield_value(total_value_of_constant_capital,
-                         entire_function_time, t)
+        calc_yield_value(total_value_of_constant_capital, entire_function_time, t)
         for t in function_time_list
     ]
 

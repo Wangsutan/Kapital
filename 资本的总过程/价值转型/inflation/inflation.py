@@ -9,7 +9,9 @@ def calc_product_price(
     variable_capital_change_rate,
     profit_rate_general,
 ):
-    cost_price = constant_capital + variable_capital * (1 + variable_capital_change_rate)
+    cost_price = constant_capital + variable_capital * (
+        1 + variable_capital_change_rate
+    )
     product_price = cost_price * (1 + profit_rate_general)
     return product_price
 
@@ -31,7 +33,7 @@ product_prices = calc_product_price(
     constant_capital_orig,
     variable_capital_orig,
     variable_capital_change_rates,
-    profit_rate_avg
+    profit_rate_avg,
 )
 
 plt.plot(variable_capital_change_rates, product_prices)
@@ -45,7 +47,7 @@ plt.xticks(rotation=45)
 
 plt.plot(
     variable_capital_change_rates,
-    [product_price_orig for i in range(variable_capital_change_rates.size)]
+    [product_price_orig for i in range(variable_capital_change_rates.size)],
 )
 
 plt.show()

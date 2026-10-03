@@ -31,7 +31,7 @@ plt.title("Profit Rate as a Function of\nConstant and Variable Capital")
 ax.set(
     xlabel="Constant Capital (c)",
     ylabel="Variable Capital (v)",
-    zlabel="Profit Rate (p')"
+    zlabel="Profit Rate (p')",
 )
 
 plt.show()

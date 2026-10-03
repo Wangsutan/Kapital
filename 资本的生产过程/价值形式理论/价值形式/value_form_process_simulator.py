@@ -7,12 +7,14 @@ import random
 import json
 from PIL import Image
 import networkx as nx
+import math
 import matplotlib
 
 matplotlib.use("Agg")  # 使用非交互式后端
 import matplotlib.pyplot as plt
-from typing import Dict, List, Set, Tuple, FrozenSet, Literal
-import math
+from typing import Dict, List, Set, Tuple, FrozenSet, Literal, Callable, Union
+from openai.types.chat import ChatCompletionMessage, ChatCompletion
+
 import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
 import threading
@@ -66,7 +68,6 @@ def generate_dot_series_with_layout(
         for i, future in enumerate(concurrent.futures.as_completed(futures)):
             try:
                 future.result()
-                print(f"\r生成进度: {i + 1} / {time_steps}", end="")
             except Exception as e:
                 logging.error(f"生成时间步 {i} 失败: {str(e)}")
 
@@ -262,7 +263,6 @@ def render_dot_files(output_dir: str) -> None:
         for i, future in enumerate(concurrent.futures.as_completed(futures)):
             try:
                 future.result()
-                print(f"\r渲染进度: {i + 1} / {len(dot_files)}", end="")
             except Exception as e:
                 logging.error(f"渲染 DOT 文件 {i} 失败: {str(e)}")
 
@@ -289,17 +289,17 @@ def create_gif_animation(output_dir: str) -> None:
     )
 
 
-def exponential_exchange_difficulty(n: int, base: float = 2, k: float = 1) -> float:
+def exponential_exchange_difficulty(n: int, k: float = 1, base: float = 2) -> float:
     """
     计算环形交换难度的指数增长模型（含异常处理）
     """
     try:
-        if n < 3:
-            raise ExchangeDifficultyError(f"节点数至少为3，当前n={n}")
+        if n < 2:
+            raise ExchangeDifficultyError(f"节点数至少为2，当前n={n}")
         if base <= 1:
             raise ExchangeDifficultyError(f"基数必须>1，当前base={base}")
 
-        difficulty: float = k * (base ** (n - 2))
+        difficulty: float = k * base**n
 
         if math.isinf(difficulty):
             raise ExchangeDifficultyError(f"计算结果溢出（n={n}, base={base}）")
@@ -312,118 +312,184 @@ def exponential_exchange_difficulty(n: int, base: float = 2, k: float = 1) -> fl
         raise ExchangeDifficultyError(f"输入类型错误: {str(e)}") from None
 
 
-def get_product_list(
-    prompt: str, method: Literal["deepseek", "kimi"] = "deepseek"
-) -> List[str]:
-    def get_product_list_from_deepseek(api_key_txt: str, prompt: str) -> str:
-        try:
-            with open(api_key_txt, "r") as f:
-                api_key: str = f.read().strip()
-            client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
-            response = client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[
-                    {"role": "user", "content": prompt},
-                ],
-                stream=False,
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            logging.error(f"获取产品列表失败 (DeepSeek): {str(e)}")
-            raise ValueError(f"获取产品列表失败: {str(e)}")
+# AI相关类型别名定义
+AIModelType = Literal["deepseek", "kimi"]
+OpenAIMessage = Dict[str, str]
+AIResponse = Union[ChatCompletionMessage, None]
+APIResponse = Union[ChatCompletion, None]
 
-    def get_product_list_from_kimi(api_key_txt: str, prompt: str) -> str:
-        try:
-            with open(api_key_txt, "r") as f:
-                api_key: str = f.read().strip()
-            client = OpenAI(api_key=api_key, base_url="https://api.moonshot.cn/v1")
-            response = client.chat.completions.create(
-                model="moonshot-v1-8k",
-                messages=[
-                    {"role": "user", "content": prompt},
-                ],
-                stream=False,
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            logging.error(f"获取产品列表失败 (Kimi): {str(e)}")
-            raise ValueError(f"获取产品列表失败: {str(e)}")
 
-    def ai_response_to_list(list_str: str) -> List[str]:
-        # 尝试将字符串内容转换为列表
-        try:
-            product_list: List[str] = ast.literal_eval(list_str)
-            if isinstance(product_list, list):
-                return product_list
-            else:
-                raise ValueError("返回的内容不是列表")
-        except (ValueError, SyntaxError) as e:
-            logging.error(f"转换列表失败: {str(e)}")
-            raise ValueError("返回的内容格式不正确，无法转换为列表")
+def get_product_list_from_deepseek(
+    base_url: str, api_key: str, model: str, messages: List[OpenAIMessage]
+) -> ChatCompletionMessage:
+    """
+    通过DeepSeek API获取产品列表
 
+    Args:
+        base_url: API基础地址
+        api_key: 认证密钥
+        model: 使用的模型名称
+        messages: 消息上下文
+
+    Returns:
+        ChatCompletionMessage: OpenAI格式的响应消息对象
+
+    Raises:
+        ValueError: API调用失败时抛出
+    """
     try:
+        from openai import OpenAI
+
+        client: OpenAI = OpenAI(api_key=api_key, base_url=base_url)
+        response: APIResponse = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            stream=False,
+        )
+
+        if response and response.choices:
+            return response.choices[0].message
+        raise ValueError("Empty response from DeepSeek API")
+
+    except Exception as e:
+        logging.error(f"获取产品列表失败 (DeepSeek): {str(e)}", exc_info=True)
+        raise ValueError(f"DeepSeek API调用失败: {str(e)}") from e
+
+
+def get_product_list_from_kimi(
+    base_url: str, api_key: str, model: str, messages: List[OpenAIMessage]
+) -> ChatCompletionMessage:
+    """
+    通过Kimi API获取产品列表
+
+    Args:
+        base_url: API基础地址
+        api_key: 认证密钥
+        model: 使用的模型名称
+        messages: 消息上下文
+
+    Returns:
+        ChatCompletionMessage: OpenAI格式的响应消息对象
+
+    Raises:
+        ValueError: API调用失败时抛出
+    """
+    try:
+        client: OpenAI = OpenAI(api_key=api_key, base_url=base_url)
+        response: APIResponse = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            stream=False,
+        )
+
+        if response and response.choices:
+            return response.choices[0].message
+        raise ValueError("Empty response from Kimi API")
+
+    except Exception as e:
+        logging.error(f"获取产品列表失败 (Kimi): {str(e)}", exc_info=True)
+        raise ValueError(f"Kimi API调用失败: {str(e)}") from e
+
+
+def get_product_message(
+    method: AIModelType, messages: List[OpenAIMessage]
+) -> ChatCompletionMessage:
+    """
+    获取AI生成的产品信息
+
+    Args:
+        method: AI平台选择
+        messages: 消息上下文
+
+    Returns:
+        ChatCompletionMessage: 标准化响应消息
+
+    Raises:
+        ValueError: 参数错误或API调用失败
+        FileNotFoundError: API密钥文件不存在
+        RuntimeError: 其他运行时错误
+    """
+    try:
+        api_key: str
         match method:
             case "deepseek":
-                return ai_response_to_list(
-                    get_product_list_from_deepseek(
-                        "./ai_api_key/api_key_deepseek.txt", prompt
-                    )
+                with open("./ai_api_key/api_key_deepseek.txt", "r") as f:
+                    api_key = f.read().strip()
+                return get_product_list_from_deepseek(
+                    base_url="https://api.deepseek.com",
+                    api_key=api_key,
+                    model="deepseek-chat",
+                    messages=messages,
                 )
+
             case "kimi":
-                return ai_response_to_list(
-                    get_product_list_from_kimi("./ai_api_key/api_key_kimi.txt", prompt)
+                with open("./ai_api_key/api_key_kimi.txt", "r") as f:
+                    api_key = f.read().strip()
+                return get_product_list_from_kimi(
+                    base_url="https://api.moonshot.cn/v1",
+                    api_key=api_key,
+                    model="moonshot-v1-8k",
+                    messages=messages,
                 )
+
+            case _:
+                raise ValueError(f"不支持的AI模型: {method}")
+
+    except FileNotFoundError as fnf_error:
+        logging.critical(f"API密钥文件未找到: {str(fnf_error)}")
+        raise
+    except ValueError as ve:
+        logging.warning(f"参数错误: {str(ve)}")
+        raise
     except Exception as e:
-        logging.warning(f"AI生成列表数据失败（错误：{str(e)}），返回默认产品列表")
-        return [
-            "Gold",
-            "Silver",
-            "Fish",
-            "Meat",
-            "Grain",
-            "Cloth",
-            "Wood",
-            "Salt",
-        ]
+        logging.error(f"AI生成列表数据失败: {str(e)}", exc_info=True)
+        raise RuntimeError(f"AI服务不可用: {str(e)}") from e
+
+
+def ai_response_to_list(list_str: str) -> List[str]:
+    """
+    将AI响应转换为产品列表
+
+    Args:
+        list_str: AI返回的字符串内容
+
+    Returns:
+        List[str]: 标准化产品列表
+
+    Raises:
+        ValueError: 内容格式无效时抛出
+        SyntaxError: 解析语法错误时抛出
+    """
+    try:
+        parsed_data: object = ast.literal_eval(list_str.strip())
+        if isinstance(parsed_data, list):
+            return [item for item in parsed_data if isinstance(item, str)]
+        raise ValueError("响应内容不是有效列表格式")
+
+    except (ValueError, SyntaxError) as e:
+        logging.error(f"列表转换失败: {str(e)}\n原始内容: {list_str}")
+        raise ValueError("无法解析AI响应内容") from e
+    except Exception as e:
+        logging.error(f"意外解析错误: {str(e)}")
+        raise RuntimeError("数据处理失败") from e
 
 
 if __name__ == "__main__":
-    # 文件路径
-    output_dir: str = "./datas_dynamic_graphs"
-    # 帧数
-    time_steps: int = 60
-    # 产品列表
-    prompt: str = (
-        "生成一个用于交换的产品的Python列表，产品数量在5-10个之间，这些产品属于人类社会早期的产品。输出结果只要列表，其他任何东西都不要。"
-    )
-    products: List[str] = get_product_list(prompt, method="deepseek")
-
-    print("生成动态DOT文件")
-    generate_dot_series_with_layout(output_dir, time_steps, products)
-
-    # 在主线程执行所有绘图任务
-    print("\n绘制节点统计图")
-    execute_plot_tasks()
-
-    print("\n渲染PNG图像")
-    render_dot_files(output_dir)
-
-    print("\n生成GIF动画")
-    create_gif_animation(output_dir)
-
     # 绘制指数型增长的交换难度曲线
-    n_values: List[int] = list(range(3, 10))
+    n_values: List[int] = list(range(2, 10))
     difficulties: List[float] = [
-        exponential_exchange_difficulty(n, math.e, 1) for n in n_values
+        exponential_exchange_difficulty(n, 1, math.e) for n in n_values
     ]
 
     plt.figure(figsize=(10, 6), dpi=100)
     plt.plot(n_values, difficulties, marker="o", label="Exchange Difficulty")
-    plt.title("Exponential Growth of Exchange Difficulty\n($D(n) = e^{n-2}$)")
+
+    plt.title("Exponential Growth of Exchange Difficulty")
     plt.xlabel("Number of Nodes (n)")
     plt.ylabel("Exchange Difficulty (D)")
     plt.xticks(n_values)
+    plt.gca().get_yaxis().set_visible(False)  # 隐藏纵坐标
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/exchange_difficulty.png", bbox_inches="tight")
+    plt.grid(True, axis="x")  # 只显示横向网格线
+    plt.savefig(f"exchange_difficulty.png", bbox_inches="tight")
     plt.close()

@@ -1,2 +1,4 @@
 ./*.png
 ./*.ttf
+./datas_graphs_generated/*
+./datas_dynamic_graphs/*

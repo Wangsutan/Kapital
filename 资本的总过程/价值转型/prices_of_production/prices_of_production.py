@@ -21,4 +21,6 @@ df["priceOfProduction"] = (
 
 df["diffOfPriceOfProductionAndValue"] = df["priceOfProduction"] - df["value"]
 
-print(df[["costPrice", "value", "priceOfProduction", "diffOfPriceOfProductionAndValue"]])
+print(
+    df[["costPrice", "value", "priceOfProduction", "diffOfPriceOfProductionAndValue"]]
+)

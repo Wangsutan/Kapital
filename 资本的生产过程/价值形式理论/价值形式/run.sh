@@ -67,7 +67,7 @@ fi
 echo "3D 图形文件 (OBJ/STL/PLY) 生成完成。"
 
 echo "生成价值形式动态图形文件……"
-python value_form_process_simulator.py
+python ai_process.py
 if [ $? -ne 0 ]; then
     echo "生成价值形式动态图形文件失败，请检查错误。"
     exit 1

@@ -49,10 +49,7 @@ plt.title("Marx's reproduction no stagnant made by Umlaufszeit")
 labels = ["Arbeit", "Umlauf"]
 colors_select = ["b", "r"]
 patches = [
-    mpatches.Patch(
-        color=colors_select[i],
-        label=labels[i]
-    ) for i in range(len(labels))
+    mpatches.Patch(color=colors_select[i], label=labels[i]) for i in range(len(labels))
 ]
 plt.legend(handles=patches, loc=4)
 

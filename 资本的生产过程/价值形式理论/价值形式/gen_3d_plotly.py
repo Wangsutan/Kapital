@@ -101,8 +101,9 @@ def visualize_graph(dot_file_path: str) -> None:
                 tgt_pos[2] - uz * node_radius,
             ]
         else:
-            start_point, end_point = list(src_pos), list(
-                tgt_pos
+            start_point, end_point = (
+                list(src_pos),
+                list(tgt_pos),
             )  # 起点和终点是同一个点的情况
         # ========== 表面坐标计算结束 ==========
 

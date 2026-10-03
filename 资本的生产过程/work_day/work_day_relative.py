@@ -5,7 +5,9 @@ def calc_surplus_value_rate(work_hours_for_other, work_hours_for_oneself):
     return work_hours_for_other / work_hours_for_oneself
 
 
-def draw_pie(work_hours_for_oneself, work_hours_for_other, other_hours, surplus_value_rate):
+def draw_pie(
+    work_hours_for_oneself, work_hours_for_other, other_hours, surplus_value_rate
+):
     plt.pie(
         [work_hours_for_oneself, work_hours_for_other, other_hours],
         labels=["v", "m", "o"],
@@ -32,7 +34,8 @@ for i in range(left_edge, 0, -1):
     work_hours_for_oneself_now = i
     work_hours_for_other_now = work_hours - i
     surplus_value_rate = calc_surplus_value_rate(
-        work_hours_for_other_now, work_hours_for_oneself_now)
+        work_hours_for_other_now, work_hours_for_oneself_now
+    )
     print(f"{work_hours_for_other_now: .2f}\t{surplus_value_rate: .2f}")
 
     work_hours_for_other_list.append(work_hours_for_other_now)
@@ -40,8 +43,12 @@ for i in range(left_edge, 0, -1):
 
     other_hours = hours_of_nature_day - work_hours
 
-    draw_pie(work_hours_for_oneself_now, work_hours_for_other_now,
-             other_hours, surplus_value_rate)
+    draw_pie(
+        work_hours_for_oneself_now,
+        work_hours_for_other_now,
+        other_hours,
+        surplus_value_rate,
+    )
 
 plt.plot(work_hours_for_other_list, surplus_value_rate_list)
 

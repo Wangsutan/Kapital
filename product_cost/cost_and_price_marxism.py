@@ -39,7 +39,11 @@ profit_rate = 0.30
 
 # input datas of fixed_capital_independent
 fixed_capital_independent_columns = ["生产要素", "总价值", "使用年限"]
-fixed_capital_independent_datas = [["厂房", 1500, 10], ["流水线", 500, 5], ["辅助工具", 100, 2]]
+fixed_capital_independent_datas = [
+    ["厂房", 1500, 10],
+    ["流水线", 500, 5],
+    ["辅助工具", 100, 2],
+]
 
 fixed_capital_independent_df = pd.DataFrame(
     fixed_capital_independent_datas,

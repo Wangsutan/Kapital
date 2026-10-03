@@ -5,9 +5,9 @@ from typing import Dict, List, Set, Tuple
 
 class Market:
     def __init__(self) -> None:
-        self.liquidity: Dict[str, float] = (
-            {}
-        )  # 商品流通性，格式：{商品名称: 流通性评分}
+        self.liquidity: Dict[
+            str, float
+        ] = {}  # 商品流通性，格式：{商品名称: 流通性评分}
 
     def set_liquidity(self, good: str, change: float) -> None:
         """设置商品流通性"""

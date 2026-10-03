@@ -6,6 +6,7 @@ Created on Tue Aug  8 23:27:25 2023
 @author: wst
 """
 
+
 def get_rent_per_area(soils):
     rentPerArea = 0
     areaSum = 0

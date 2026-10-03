@@ -4,15 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "d7b7427fcad87f5e",
+        "id": "ff07e77389b3c954",
         "type": "tabs",
         "children": [
           {
-            "id": "75a8fe397aec3b11",
+            "id": "8c9b0455858f5e1e",
             "type": "leaf",
             "state": {
               "type": "empty",
-              "state": {}
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -34,8 +36,11 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
-              }
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -50,7 +55,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -58,7 +65,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -88,7 +97,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
             }
           },
           {
@@ -99,7 +110,9 @@
               "state": {
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
             }
           },
           {
@@ -109,8 +122,12 @@
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
-                "useHierarchy": true
-              }
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -118,18 +135,24 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -138,8 +161,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "75a8fe397aec3b11",
+  "active": "8c9b0455858f5e1e",
   "lastOpenFiles": [
+    "Untitled.base",
+    "Untitled 1.base",
+    "Untitled 2.base",
+    "Untitled",
     "fill_Umlaufszeit/原著笔记/第十五章详细笔记.md",
     "fill_Umlaufszeit/money_capital_in_turnover/tmpwtt71uis",
     "fill_Umlaufszeit/money_capital_in_turnover/tmp8n81flak",
@@ -148,9 +175,6 @@
     "fill_Umlaufszeit/money_capital_in_turnover/tmp2zaw9br2",
     "fill_Umlaufszeit/money_capital_in_turnover/tmpj6h5r9rn",
     "fill_Umlaufszeit/money_capital_in_turnover/tmp3z6o0pl4",
-    "fill_Umlaufszeit/money_capital_in_turnover/tmpi_k7ri1x",
-    "fill_Umlaufszeit/money_capital_in_turnover/tmp0lnjsah9",
-    "fill_Umlaufszeit/money_capital_in_turnover/tmpdw2nj0ax",
     "fill_Umlaufszeit/原著笔记/20220406_《资本论》第二卷第二篇第十五章笔记.md",
     "fill_Umlaufszeit/money_capital_in_turnover/money_capital_in_turnover_doc.md",
     "fill_Umlaufszeit/money_capital_in_turnover/money_capital_in_turnover_资本关键节点.md",
